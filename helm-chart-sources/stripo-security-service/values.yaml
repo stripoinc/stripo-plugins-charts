@@ -1,0 +1,133 @@
+# Default values for stripo-security-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+DeadlineSeconds: 120
+
+image:
+  repository: esputnik/stripo-security-service
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: 
+  - name: dockerhub
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    memory: 512Mi
+  requests:
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env: 
+  - name: APPNAME
+    value: stripo-security-service
+  - name: ENV
+    value: PLUGINS
+  - name: PROFILE
+    value: PLUGINS
+  - name: SPRING_CONFIG_NAME
+    value: application,jdbc,log,base
+  - name: SPRING_CONFIG_LOCATION
+    value: file:///config/
+  - name: JVM_MEMORY_OPTS
+    value: -Xss256k -Xms256m -Xmx400m -XX:PermSize=128M -XX:MaxPermSize=128M -XX:ReservedCodeCacheSize=128M -Dspring.cloud.config.enabled=false -Daws.secretsmanager.enabled=false
+
+configmap:
+  enabled: true
+  extraScrapeConfigs:
+    application.properties: |
+      spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_securitydb
+      spring.datasource.username=example
+      spring.datasource.password=secret
+      auth.username=security-service
+      auth.password=secret
+      server.port=8080
+      #=================== Updated passwords ======================
+      auth.passwordV2=secret
+    log.properties: |
+      logging.level.root=INFO
+      logging.level.com.stripo=INFO
+      logging.level.org.springframework=INFO
+      logging.level.org.springframework.web.client=INFO
+      logging.level.com.zaxxer.hikari=DEBUG
+    base.properties: |
+      management.port=8080
+      management.address=0.0.0.0
+      app.version=@docker.image.tag@
+      build.time=@timestamp@
+      management.endpoints.web.exposure.include=*
+      management.security.enabled=false
+      management.endpoint.health.enabled=true
+      management.endpoints.web.exposure.include=metrics
+      spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+      spring.jpa.database=postgresql       
+      spring.zipkin.enabled=false   
+      spring.datasource.hikari.minimum-idle=5
+      spring.datasource.hikari.maximum-pool-size=20
+      spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+    

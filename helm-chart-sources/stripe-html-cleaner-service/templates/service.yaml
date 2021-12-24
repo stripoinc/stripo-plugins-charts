@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "stripe-html-cleaner-service.fullname" . }}
+  labels:
+    {{- include "stripe-html-cleaner-service.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "stripe-html-cleaner-service.selectorLabels" . | nindent 4 }}
