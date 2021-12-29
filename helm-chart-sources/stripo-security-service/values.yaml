@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-DeadlineSeconds: 120
+DeadlineSeconds: 200
 
 image:
   repository: esputnik/stripo-security-service
@@ -106,7 +106,6 @@ configmap:
       spring.datasource.password=secret
       auth.username=security-service
       auth.password=secret
-      server.port=8080
       #=================== Updated passwords ======================
       auth.passwordV2=secret
     log.properties: |
@@ -116,6 +115,7 @@ configmap:
       logging.level.org.springframework.web.client=INFO
       logging.level.com.zaxxer.hikari=DEBUG
     base.properties: |
+      server.port=8080
       management.port=8080
       management.address=0.0.0.0
       app.version=@docker.image.tag@
