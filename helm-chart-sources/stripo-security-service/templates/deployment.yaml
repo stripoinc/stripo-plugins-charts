@@ -44,7 +44,7 @@ spec:
             httpGet:
               path: /version
               port: http
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 10              
           readinessProbe:
             httpGet:
