@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-DeadlineSeconds: 200
+DeadlineSeconds: 300
 
 image:
   repository: esputnik/stripo-security-service
