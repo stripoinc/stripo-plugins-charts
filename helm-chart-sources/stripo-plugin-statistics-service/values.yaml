@@ -27,7 +27,10 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations: {}
+podAnnotations: 
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/actuator/prometheus"
+  prometheus.io/port: "8080"
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -119,4 +122,5 @@ configmap:
       spring.zipkin.enabled=false   
       spring.datasource.hikari.minimum-idle=5
       spring.datasource.hikari.maximum-pool-size=20
-      spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true      
+      spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+      management.endpoints.web.exposure.include=*      
