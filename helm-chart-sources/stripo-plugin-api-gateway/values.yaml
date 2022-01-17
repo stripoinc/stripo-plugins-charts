@@ -117,8 +117,6 @@ configmap:
       service.timer.password=secret
       jwt.secret.cabinetKey=secret
       jwt.secret.apiKey=secret
-      auth.innerServiceUsername=innerPluginApiUsername
-      auth.innerServicePassword=secret
       #=================== Updated passwords ======================
       jwt.secret.apiKeyV2=secret
       jwt.secret.cabinetKeyV2=secret
@@ -128,6 +126,8 @@ configmap:
       logging.level.org.springframework=INFO
       logging.level.reactor.netty.http.client=DEBUG
     base.properties: |
+      auth.innerServiceUsername=innerPluginApiUsername
+      auth.innerServicePassword=test
       management.port=8080
       management.address=0.0.0.0
       app.version=@docker.image.tag@
