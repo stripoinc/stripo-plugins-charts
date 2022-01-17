@@ -118,5 +118,6 @@ configmap:
       app.version=@docker.image.tag@
       build.time=@timestamp@
       management.security.enabled=false
+      management.endpoints.web.exposure.include=*
       spring.zipkin.enabled=false
       rate.limit.enabled=false
