@@ -125,8 +125,6 @@ configmap:
       build.time=@timestamp@
       management.endpoints.web.exposure.include=*
       management.security.enabled=false
-      management.endpoint.health.enabled=true
-      management.endpoints.web.exposure.include=metrics
       spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
       spring.jpa.database=postgresql       
       spring.zipkin.enabled=false   
