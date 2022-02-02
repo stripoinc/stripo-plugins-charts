@@ -90,10 +90,6 @@ env:
     value: PLUGINS
   - name: PROFILE
     value: PLUGINS
-  # - name: HOST
-  #   valueFrom:
-  #     fieldRef:
-  #       fieldPath: status.podIP
 
 configmap:
   enabled: true
@@ -113,3 +109,10 @@ configmap:
       UPLOAD_URL: '/api-uploads/'
       CACHE_LIFETIME: 30
       UPLOAD_FOLDER: '/opt/uploads'
+
+volume:
+  enabled: true
+  storageClass:
+    enabled: false
+    className: gp2 # AWS default storage class
+  size: 2Gi

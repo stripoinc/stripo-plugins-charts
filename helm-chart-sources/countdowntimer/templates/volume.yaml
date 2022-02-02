@@ -1,0 +1,16 @@
+{{- if .Values.volume.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: countdowntimer-pv-claim
+spec:
+{{- if .Values.volume.storageClass.enabled }}
+  storageClassName: {{ .Values.volume.storageClass.className }}
+{{- end }}  
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.volume.size }}
+{{- end }}

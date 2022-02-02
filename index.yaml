@@ -15,9 +15,9 @@ entries:
   countdowntimer:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-02-02T10:55:32.637245+02:00"
+    created: "2022-02-02T15:44:59.105828+02:00"
     description: Countdowntimer service
-    digest: 7584b09ad7f775e9d68ba4b2c8b0237079d5aacf6f41e966b63f5cbb8b0543ee
+    digest: 15d2685af9e570a6c88c492f65caadefca1d3705c12420a9b8c9cf4381d124f5
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: countdowntimer
     type: application
@@ -216,4 +216,4 @@ entries:
     urls:
     - https://stripoinc.github.io/stripo-plugins-charts/stripo-timer-api-0.1.0.tgz
     version: 0.1.0
-generated: "2022-02-02T10:55:32.635647+02:00"
+generated: "2022-02-02T15:44:59.101859+02:00"
