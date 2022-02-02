@@ -93,8 +93,10 @@ env:
     value: PLUGINS
   - name: PROFILE
     value: PLUGINS
+  - name: SPRING_PROFILES_ACTIVE
+    value: plugin-live
   - name: SPRING_CONFIG_NAME
-    value: application,jdbc
+    value: application,jdbc,log,base
   - name: SPRING_CONFIG_LOCATION
     value: file:///config/
   - name: JVM_MEMORY_OPTS
@@ -113,7 +115,31 @@ configmap:
       spring.security.user.password=secret
       spring.security.user.passwordV2=secret
       # These are credentials to timer service.
-      timer.url=https://timerUrl/api/
+      timer.url=http://countdowntimer:80/api/
       timer.username=Admin
       timer.password=secret
+      timer.checkLimit=false
+      auth.enableJwtAuth=false
+      auth.innerServiceUsername=innerTimerApiUsername
+      auth.innerServicePassword=test
+      spring.security.user.name=admin
+      spring.security.user.password=test
+      spring.security.user.roles=USER
+      auth.innerServiceUsername=innerTimerApiUsername
+      auth.innerServicePassword=test
+    base.properties: |
+      spring.zipkin.enabled=false
+      aws.secretsmanager.enabled=false
+      spring.datasource.tomcat.test-on-borrow=true
+      spring.datasource.tomcat.validation-query=SELECT 1
+      spring.datasource.dbcp.max-active=20
+      spring.datasource.hikari.connection-test-query=SELECT 1
+      spring.datasource.hikari.minimum-idle=10
+      spring.datasource.hikari.maximum-pool-size=20
       management.endpoints.web.exposure.include=*
+    log.properties: |
+      logging.level.root=INFO
+      logging.level.com.ardas=INFO
+      logging.level.org.springframework=INFO
+      logging.level.org.springframework.web.client=INFO
+      logging.level.com.zaxxer.hikari=INFO

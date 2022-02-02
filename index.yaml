@@ -12,6 +12,18 @@ entries:
     urls:
     - https://stripoinc.github.io/stripo-plugins-charts/amp-validator-service-0.1.0.tgz
     version: 0.1.0
+  countdowntimer:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-02-02T10:55:32.637245+02:00"
+    description: Countdowntimer service
+    digest: 7584b09ad7f775e9d68ba4b2c8b0237079d5aacf6f41e966b63f5cbb8b0543ee
+    icon: https://stripo-cdn.stripo.email/favicon-32x32.png
+    name: countdowntimer
+    type: application
+    urls:
+    - https://stripoinc.github.io/stripo-plugins-charts/countdowntimer-0.1.0.tgz
+    version: 0.1.0
   emple-loadbalancer:
   - apiVersion: v2
     appVersion: latest
@@ -195,13 +207,13 @@ entries:
   stripo-timer-api:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-01-18T09:58:23.9232+02:00"
+    created: "2022-02-02T10:55:32.646604+02:00"
     description: Timer api
-    digest: 6e9919a11644a4b16722d1ca78c40a1a2239b2330cc6ae8704879c8135daef85
+    digest: 706a5dc5cb7db8ac1fba80f72eb9b0c766207b4da50d2ce5a088268170580242
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-timer-api
     type: application
     urls:
     - https://stripoinc.github.io/stripo-plugins-charts/stripo-timer-api-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-18T09:58:23.893034+02:00"
+generated: "2022-02-02T10:55:32.635647+02:00"

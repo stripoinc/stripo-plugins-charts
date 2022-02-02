@@ -1,17 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "stripo-timer-api.fullname" . }}
+  name: {{ include "countdowntimer.fullname" . }}
   labels:
-    {{- include "stripo-timer-api.labels" . | nindent 4 }}
+    {{- include "countdowntimer.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
-  progressDeadlineSeconds: {{ .Values.DeadlineSeconds }}
   selector:
     matchLabels:
-      {{- include "stripo-timer-api.selectorLabels" . | nindent 6 }}
+      {{- include "countdowntimer.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "stripo-timer-api.selectorLabels" . | nindent 8 }}
+        {{- include "countdowntimer.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "stripo-timer-api.serviceAccountName" . }}
+      serviceAccountName: {{ include "countdowntimer.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -35,37 +34,40 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: VERSION
+              value: {{ .Values.image.tag | default .Chart.AppVersion }}
             {{- toYaml .Values.env | nindent 12 }}          
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 80
               protocol: TCP
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/usr/bin/python3", "manage.py", "load_fixtures"]              
           livenessProbe:
             httpGet:
-              path: /actuator/health/liveness
+              path: /api/version
               port: http
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 15
+            periodSeconds: 10
             successThreshold: 1
-            timeoutSeconds: 2                
+            timeoutSeconds: 2                 
           readinessProbe:
             httpGet:
-              path: /actuator/health/readiness
+              path: /api/version
               port: http
             initialDelaySeconds: 10
             periodSeconds: 5
             successThreshold: 1
-            timeoutSeconds: 2  
-          lifecycle:
-            preStop:
-              exec:
-                command: ["sleep", "5"]                          
+            timeoutSeconds: 2               
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.configmap.enabled }}
           volumeMounts:
             - name: properties
-              mountPath: /config
+              mountPath: /usr/local/countdowntimer/config.yaml
+              subPath: "config.yaml"
           {{- end }}                
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -79,8 +81,8 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: stripo-timer-api
-      {{- end }}              
+            name: countdowntimer
+      {{- end }}          
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
