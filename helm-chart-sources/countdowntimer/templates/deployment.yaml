@@ -41,10 +41,6 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/usr/bin/python3", "manage.py", "load_fixtures"]              
           livenessProbe:
             httpGet:
               path: /api/version

@@ -90,6 +90,8 @@ env:
     value: PLUGINS
   - name: PROFILE
     value: PLUGINS
+  - name: PLUGIN_PATCHES
+    value: "true"
 
 configmap:
   enabled: true
@@ -115,4 +117,4 @@ volume:
   storageClass:
     enabled: false
     className: gp2 # AWS default storage class
-  size: 2Gi
+  size: 10Gi
