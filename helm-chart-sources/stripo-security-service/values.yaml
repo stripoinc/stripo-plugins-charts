@@ -107,16 +107,8 @@ configmap:
       spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_securitydb
       spring.datasource.username=example
       spring.datasource.password=secret
-      auth.username=security-service
-      auth.password=secret
-      #=================== Updated passwords ======================
-      auth.passwordV2=secret
     log.properties: |
       logging.level.root=INFO
-      logging.level.com.stripo=INFO
-      logging.level.org.springframework=INFO
-      logging.level.org.springframework.web.client=INFO
-      logging.level.com.zaxxer.hikari=DEBUG
     base.properties: |
       server.port=8080
       management.port=8080
@@ -131,4 +123,7 @@ configmap:
       spring.datasource.hikari.minimum-idle=5
       spring.datasource.hikari.maximum-pool-size=20
       spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
-    
+      auth.username=security-service
+      auth.password=secret
+      auth.passwordV2=secret
+      server.port=8080

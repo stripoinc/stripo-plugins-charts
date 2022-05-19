@@ -113,19 +113,8 @@ configmap:
       storage.internal.aws.bucketName=
       storage.internal.aws.region=
       storage.internal.aws.baseDownloadUrl=https://baseurl/content
-      plugin.service.screenshotUrl=http://screenshot-service:8080
-      plugin.service.pluginDetailsUrl=http://stripo-plugin-details-service:8080
-      stripo.security.service.baseUrl=http://stripo-security-service:8080
-      stripo.security.service.username=security-service
-      stripo.security.service.password=secret
-      #=================== Updated passwords ======================
-      stripo.security.service.passwordV2=secret
     log.properties: |
       logging.level.root=INFO
-      logging.level.com.stripo=INFO
-      logging.level.org.springframework=INFO
-      logging.level.org.springframework.web.client=INFO
-      logging.level.com.zaxxer.hikari=DEBUG
     base.properties: |
       management.port=8080
       management.address=0.0.0.0
@@ -136,4 +125,10 @@ configmap:
       spring.datasource.hikari.minimum-idle=5
       spring.datasource.hikari.maximum-pool-size=20
       spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true   
-      management.endpoints.web.exposure.include=*   
+      management.endpoints.web.exposure.include=*
+      plugin.service.screenshotUrl=http://screenshot-service:8080
+      plugin.service.pluginDetailsUrl=http://stripo-plugin-details-service:8080
+      stripo.security.service.baseUrl=http://stripo-security-service:8080
+      stripo.security.service.username=security-service
+      stripo.security.service.password=secret
+      stripo.security.service.passwordV2=secret

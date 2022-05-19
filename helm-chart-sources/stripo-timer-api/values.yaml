@@ -110,23 +110,12 @@ configmap:
       spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_timers
       spring.datasource.username=example
       spring.datasource.password=secret
-      # These are credentials to security service. Set same value for password and passwordV2
-      spring.security.user.name=timeradmin
-      spring.security.user.password=secret
-      spring.security.user.passwordV2=secret
       # These are credentials to timer service.
       timer.url=http://countdowntimer:80/api/
       timer.username=Admin
       timer.password=secret
-      timer.checkLimit=false
-      auth.enableJwtAuth=false
-      auth.innerServiceUsername=innerTimerApiUsername
-      auth.innerServicePassword=test
       spring.security.user.name=admin
       spring.security.user.password=test
-      spring.security.user.roles=USER
-      auth.innerServiceUsername=innerTimerApiUsername
-      auth.innerServicePassword=test
     base.properties: |
       spring.zipkin.enabled=false
       aws.secretsmanager.enabled=false
@@ -137,9 +126,13 @@ configmap:
       spring.datasource.hikari.minimum-idle=10
       spring.datasource.hikari.maximum-pool-size=20
       management.endpoints.web.exposure.include=*
+      timer.checkLimit=false
+      auth.enableJwtAuth=false
+      auth.innerServiceUsername=innerTimerApiUsername
+      auth.innerServicePassword=test
+      spring.security.user.name=timeradmin
+      spring.security.user.password=secret
+      spring.security.user.passwordV2=secret
+      spring.security.user.roles=USER
     log.properties: |
       logging.level.root=INFO
-      logging.level.com.ardas=INFO
-      logging.level.org.springframework=INFO
-      logging.level.org.springframework.web.client=INFO
-      logging.level.com.zaxxer.hikari=INFO

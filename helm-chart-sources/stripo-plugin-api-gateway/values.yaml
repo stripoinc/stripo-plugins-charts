@@ -112,19 +112,10 @@ configmap:
       service.htmlgen.url=http://stripe-html-gen-service:8080
       service.htmlcleaner.url=http://stripe-html-cleaner-service:8080
       service.statistics.url=http://stripo-plugin-statistics-service:8080
-      service.timer.url=http://stripo-timer-api:8080
-      service.timer.username=Admin
-      service.timer.password=secret
-      jwt.secret.cabinetKey=secret
-      jwt.secret.apiKey=secret
-      #=================== Updated passwords ======================
       jwt.secret.apiKeyV2=secret
-      jwt.secret.cabinetKeyV2=secret
+      jwt.secret.expirationInMinutes=30
     log.properties: |
       logging.level.root=INFO
-      logging.level.com.stripo=INFO
-      logging.level.org.springframework=INFO
-      logging.level.reactor.netty.http.client=DEBUG
     base.properties: |
       auth.innerServiceUsername=innerPluginApiUsername
       auth.innerServicePassword=test
@@ -135,3 +126,9 @@ configmap:
       management.security.enabled=false
       spring.zipkin.enabled=false
       management.endpoints.web.exposure.include=*
+      service.timer.url=http://stripo-timer-api:8080
+      service.timer.username=timeradmin
+      service.timer.password=secret
+      jwt.secret.cabinetKey=secretN0
+      jwt.secret.cabinetKeyV2=secretN0
+      jwt.secret.apiKey=secretN0

@@ -109,13 +109,8 @@ configmap:
       spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_custom_blocks
       spring.datasource.username=example
       spring.datasource.password=secret
-      plugin.service.documentsUrl=http://stripo-plugin-documents-service:8080
     log.properties: |
       logging.level.root=INFO
-      logging.level.com.stripo=INFO
-      logging.level.org.springframework=INFO
-      logging.level.org.springframework.web.client=INFO
-      logging.level.com.zaxxer.hikari=DEBUG
     base.properties: |
       management.endpoints.web.exposure.include=*
       management.security.enabled=false
@@ -126,4 +121,5 @@ configmap:
       app.version=@docker.image.tag@
       build.time=@timestamp@
       management.security.enabled=false
-      spring.zipkin.enabled=false      
+      spring.zipkin.enabled=false
+      plugin.service.documentsUrl=http://stripo-plugin-documents-service:8080

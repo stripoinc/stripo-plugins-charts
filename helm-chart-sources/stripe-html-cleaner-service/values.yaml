@@ -107,18 +107,8 @@ env:
 configmap:
   enabled: true
   extraScrapeConfigs:
-    application.properties: |
-      base.app.url=
-      amp.validator.url=http://amp-validator-service:8080
-      amp.validator.username=amp-admin
-      amp.validator.password=secret
-      amp.validator.active=true
-      use.security.policy.for.amp=false
     log.properties: |
       logging.level.root=INFO
-      logging.level.com.ardas=DEBUG
-      logging.level.org.springframework=INFO
-      logging.level.org.springframework.web.client=DEBUG
     base.properties: |
       management.port=8080
       management.address=0.0.0.0
@@ -128,4 +118,10 @@ configmap:
       spring.zipkin.enabled=false
       management.endpoints.web.exposure.include=*
       auth.swaggerUsername=stripe-swagger-user
-      auth.swaggerPassword=secret      
+      auth.swaggerPassword=secret
+      base.app.url=
+      amp.validator.url=http://amp-validator-service:8080
+      amp.validator.username=amp-admin
+      amp.validator.password=secret
+      amp.validator.active=true
+      use.security.policy.for.amp=false

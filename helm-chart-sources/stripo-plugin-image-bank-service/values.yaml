@@ -107,13 +107,8 @@ configmap:
       spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_bank_images
       spring.datasource.username=example
       spring.datasource.password=secret
-      plugin.service.documentsUrl=http://stripo-plugin-documents-service:8080
     log.properties: |
       logging.level.root=INFO
-      logging.level.com.stripo=INFO
-      logging.level.org.springframework=INFO
-      logging.level.org.springframework.web.client=INFO
-      logging.level.com.zaxxer.hikari=DEBUG
     base.properties: |
       management.port=8080
       management.address=0.0.0.0
@@ -124,4 +119,5 @@ configmap:
       spring.datasource.hikari.minimum-idle=5
       spring.datasource.hikari.maximum-pool-size=20
       spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
-      management.endpoints.web.exposure.include=*           
+      management.endpoints.web.exposure.include=*
+      plugin.service.documentsUrl=http://stripo-plugin-documents-service:8080
