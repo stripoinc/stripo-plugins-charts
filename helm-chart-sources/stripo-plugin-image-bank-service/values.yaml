@@ -121,3 +121,6 @@ configmap:
       spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
       management.endpoints.web.exposure.include=*
       plugin.service.documentsUrl=http://stripo-plugin-documents-service:8080
+      bank.images.pixabayUrl=https://pixabay.com/api/
+      bank.images.pexelsUrl=https://api.pexels.com/v1/search
+      bank.images.iconFinderUrl=https://api.iconfinder.com

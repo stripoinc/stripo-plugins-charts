@@ -3,9 +3,9 @@ entries:
   amp-validator-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.56002+03:00"
+    created: "2022-05-24T12:15:06.553104+03:00"
     description: Service AMP validator
-    digest: b7318af04a729fdff6c90dc16465ebb1beb548e439c16ad9d2a10f231f2ec5cc
+    digest: 3078b512bd9b964633604ef67c6abce3504e5acb58dc4c0144839ff49d425ed9
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: amp-validator-service
     type: application
@@ -15,9 +15,9 @@ entries:
   countdowntimer:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.563041+03:00"
+    created: "2022-05-24T12:15:06.554757+03:00"
     description: Countdowntimer service
-    digest: c43c1818f04ffbcbc108c401690e775a7c649db7ba4ccb050ba402ba607e0252
+    digest: bb82e135f4e28c7c71e912bc1249c57a7f4be17ff4b7d706aa0e044bb8af20da
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: countdowntimer
     type: application
@@ -27,9 +27,9 @@ entries:
   emple-loadbalancer:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.563866+03:00"
+    created: "2022-05-24T12:15:06.555623+03:00"
     description: Emple loadBalancer
-    digest: f4792c4a2a3c431c503af7ea47a78ec0e4fd0d8b31e5b93bbb96c9e2d43fd5c1
+    digest: 326e647a7eeba7ee5db58f1ba7cb46053471eed840535f64e448ee33a0ec95d0
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: emple-loadbalancer
     type: application
@@ -39,9 +39,9 @@ entries:
   emple-ui:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.564544+03:00"
+    created: "2022-05-24T12:15:06.556294+03:00"
     description: Emple UI
-    digest: 65d15865dfaaf48978fbaeb93cb3049d9e2d90ec7a9270ff1a9f5200077ae44b
+    digest: 320d5999592c498dda2b8f486270a341bedabd436f5534c78e463bcf370afe97
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: emple-ui
     type: application
@@ -51,9 +51,9 @@ entries:
   patches-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.565429+03:00"
+    created: "2022-05-24T12:15:06.55709+03:00"
     description: Patches service
-    digest: 182de7417ed96e103ad98fb541345a5e27330df453f081738c2c57c2368111e0
+    digest: d76092f45f9d7ad4eea40a1dc34714ee5a8ca3be929ee2d480b1d20d0355507b
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: patches-service
     type: application
@@ -63,9 +63,9 @@ entries:
   screenshot-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.566527+03:00"
+    created: "2022-05-24T12:15:06.557829+03:00"
     description: Screenshot service
-    digest: 1ebd9bd5a3bbbe6e8b543c4dea32a9da0de5e853b352c73af7bd88f261678f8c
+    digest: 15dc2f3761b612aeb2465b15953efac4776055f1d20eb4372022f0b3a0952f66
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: screenshot-service
     type: application
@@ -75,9 +75,9 @@ entries:
   stripe-html-cleaner-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.567294+03:00"
+    created: "2022-05-24T12:15:06.558527+03:00"
     description: HTML cleane service
-    digest: 3941cd46dedea17367921809b5c4594d413e99813a86c355cb4ef10080ed4afe
+    digest: 6914a8a43bbcfb69b88f56fc78d4d64bff4ea5615fb5585b190cd83e15582abf
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripe-html-cleaner-service
     type: application
@@ -87,9 +87,9 @@ entries:
   stripe-html-gen-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.568012+03:00"
+    created: "2022-05-24T12:15:06.559308+03:00"
     description: HTML get service
-    digest: 25a2d65606ded91384bd4422c72542ae281c7b938ba3273852df1f0b341368cc
+    digest: a4f218bed2a20fedac7f98bb495e0e23a617a73df9db321e09d2b38eaf6218ff
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripe-html-gen-service
     type: application
@@ -99,9 +99,9 @@ entries:
   stripo-plugin-api-gateway:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.568896+03:00"
+    created: "2022-05-24T12:15:06.56015+03:00"
     description: Plugin api gataway
-    digest: b892a9f9503c904ae7ae2c4be38f423a136516716c4b4624dbb374c152014134
+    digest: c1ba1148d0751599479bbef86e63e08f110ddb599809da66392ad22460f0bda8
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-plugin-api-gateway
     type: application
@@ -111,9 +111,9 @@ entries:
   stripo-plugin-custom-blocks-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.569618+03:00"
+    created: "2022-05-24T12:15:06.560943+03:00"
     description: Plugin custom blocks service
-    digest: ad883e52d961311aea385440b593163c2e8d602ca2da6514a57b999800440776
+    digest: 8fba8b3499794bfd42c8b080d89f09c74f9c27dfea7fa615abb1de1046e63155
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-plugin-custom-blocks-service
     type: application
@@ -123,9 +123,9 @@ entries:
   stripo-plugin-details-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.570845+03:00"
+    created: "2022-05-24T12:15:06.561742+03:00"
     description: Plugin details service
-    digest: 6548873107c2d16671849c8a43671eb60f0c0dd985c8cb7e705092eb4f6def9c
+    digest: cc81c6259905275190693548e95f552b45a1826e45def3bb52147d589f569eee
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-plugin-details-service
     type: application
@@ -135,9 +135,9 @@ entries:
   stripo-plugin-documents-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.572042+03:00"
+    created: "2022-05-24T12:15:06.562601+03:00"
     description: Plugin documents service
-    digest: 0f7efa283ff24a7a43014404d0bafc39cbaa388e25daf123d299492074df2301
+    digest: 3b31971fe5890efc6f198a60a7dce0a64d6f28af3ff843e45b9d602c1c6ac136
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-plugin-documents-service
     type: application
@@ -147,9 +147,9 @@ entries:
   stripo-plugin-drafts-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.572879+03:00"
+    created: "2022-05-24T12:15:06.563512+03:00"
     description: Plugin drafts service
-    digest: bf09b2409d335b4300c09168bf1f079af47fac627099b389ae4c8f77a95ffd33
+    digest: 7555f5a5b209eda7fd8a7bca07ce94c6fb4daab7f648ca48278f585cf987938c
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-plugin-drafts-service
     type: application
@@ -159,9 +159,9 @@ entries:
   stripo-plugin-image-bank-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.574941+03:00"
+    created: "2022-05-24T12:15:06.564562+03:00"
     description: Plugin image bank service
-    digest: 51c0cc3e6f77ba1d5004c9fc49cecfb96d412bbc9095eccca68d29b8d8ede907
+    digest: c332ea0141bf4c1b6d052a20adc2e50217b168e8dee8b7fea0ad4ff30dd28082
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-plugin-image-bank-service
     type: application
@@ -171,9 +171,9 @@ entries:
   stripo-plugin-proxy-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.575676+03:00"
+    created: "2022-05-24T12:15:06.565701+03:00"
     description: Plugin proxy service
-    digest: 3f1ea28696c4c3a405a560017ac5e1b199706b35708d2a297f22ef9e558ab113
+    digest: 51b3778631f69c89f526b3b24438a5a11c4edf0dbc3f46b67091872f97f2a415
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-plugin-proxy-service
     type: application
@@ -183,9 +183,9 @@ entries:
   stripo-plugin-statistics-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.576548+03:00"
+    created: "2022-05-24T12:15:06.566867+03:00"
     description: Plugin statistics service
-    digest: 2b40fddca3a4fe66b1c1b38ca14f8cc3f5c7f66229500c504f36d56ca7641b92
+    digest: 0ac8858f5228dcfaf951fa7ce3cc7e5f3ab9e9f27d7dfe18e90de6450074ed04
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-plugin-statistics-service
     type: application
@@ -195,9 +195,9 @@ entries:
   stripo-security-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.577207+03:00"
+    created: "2022-05-24T12:15:06.567878+03:00"
     description: Security service
-    digest: f270e07c1a2932c71ea8272434b3fa2dbeaf5d5ef123730863d0024e5bcad501
+    digest: 67d4d12761cba87ba7ebd305127c2b92084a06eb4a305382d1fb94de861b05a4
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-security-service
     type: application
@@ -207,13 +207,13 @@ entries:
   stripo-timer-api:
   - apiVersion: v2
     appVersion: latest
-    created: "2022-05-19T16:06:18.577985+03:00"
+    created: "2022-05-24T12:15:06.568949+03:00"
     description: Timer api
-    digest: 1e4fffd50c78a3801576d0e2cf6ab2d782d634dbc5c4eca60e9b311c3fa8d6c2
+    digest: 64fc7aa23680fd04ae8ac1a3efd147bb940c863c5bb56e38ab5bcf4830dfb2d1
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-timer-api
     type: application
     urls:
     - https://stripoinc.github.io/stripo-plugins-charts/stripo-timer-api-0.1.0.tgz
     version: 0.1.0
-generated: "2022-05-19T16:06:18.558828+03:00"
+generated: "2022-05-24T12:15:06.551989+03:00"
