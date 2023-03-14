@@ -53,11 +53,11 @@ spec:
             httpGet:
               path: /actuator/health/readiness
               port: http
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successThreshold: 1
             timeoutSeconds: 2
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           lifecycle:
             preStop:
               exec:
