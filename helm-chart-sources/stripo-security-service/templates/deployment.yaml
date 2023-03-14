@@ -44,14 +44,20 @@ spec:
             httpGet:
               path: /version
               port: http
-            initialDelaySeconds: 120
-            periodSeconds: 10              
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           readinessProbe:
             httpGet:
               path: /version
               port: http
-            initialDelaySeconds: 15
-            periodSeconds: 5    
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.configmap.enabled }}

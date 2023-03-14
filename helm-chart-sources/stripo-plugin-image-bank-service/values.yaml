@@ -27,6 +27,17 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+livenessProbe:
+  initialDelaySeconds: 80
+  periodSeconds: 10
+  failureThreshold: 3
+
+readinessProbe:
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  failureThreshold: 6
+
+
 podAnnotations: 
   prometheus.io/scrape: "true"
   prometheus.io/path: "/actuator/prometheus"
