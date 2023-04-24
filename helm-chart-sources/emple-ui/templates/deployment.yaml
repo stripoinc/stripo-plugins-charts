@@ -43,15 +43,19 @@ spec:
           livenessProbe:
             tcpSocket:
               port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
-            successThreshold: 1                  
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           readinessProbe:
             tcpSocket:
               port: http
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            successThreshold: 1          
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

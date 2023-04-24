@@ -27,6 +27,16 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+livenessProbe:
+  initialDelaySeconds: 120
+  periodSeconds: 10
+  failureThreshold: 6
+
+readinessProbe:
+  initialDelaySeconds: 40
+  periodSeconds: 10
+  failureThreshold: 8
+
 podAnnotations: {}
 
 podSecurityContext: {}

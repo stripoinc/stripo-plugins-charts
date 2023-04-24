@@ -28,14 +28,14 @@ serviceAccount:
   name: ""
 
 livenessProbe:
-  initialDelaySeconds: 80
-  periodSeconds: 10
-  failureThreshold: 3
-
-readinessProbe:
-  initialDelaySeconds: 20
+  initialDelaySeconds: 120
   periodSeconds: 10
   failureThreshold: 6
+
+readinessProbe:
+  initialDelaySeconds: 40
+  periodSeconds: 10
+  failureThreshold: 8
 
 podAnnotations: 
   prometheus.io/scrape: "true"
