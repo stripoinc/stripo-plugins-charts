@@ -35,27 +35,27 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}             
+            {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             tcpSocket:
               port: http
             initialDelaySeconds: 15
             periodSeconds: 10
-            successThreshold: 1                  
+            successThreshold: 1
           readinessProbe:
             tcpSocket:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 5
-            successThreshold: 1              
+            successThreshold: 1
           lifecycle:
               preStop:
                 exec:
-                  command: ["sleep", "5"]            
+                  command: ["sleep", "5"]
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.configmap.enabled }}
