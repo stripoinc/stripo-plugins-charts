@@ -1,0 +1,8 @@
+{{- if .Values.configmap.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-service
+data:
+{{ toYaml .Values.configmap.extraScrapeConfigs | indent 2 }}
+{{- end }}
