@@ -7,7 +7,7 @@ replicaCount: 1
 DeadlineSeconds: 120
 
 image:
-  repository: stripo/ai-service
+  repository: esputnik/ai-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

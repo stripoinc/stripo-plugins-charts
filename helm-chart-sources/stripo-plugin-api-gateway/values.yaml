@@ -142,3 +142,4 @@ configmap:
       service.htmlgen.url=http://stripe-html-gen-service:8080
       service.htmlcleaner.url=http://stripe-html-cleaner-service:8080
       service.statistics.url=http://stripo-plugin-statistics-service:8080
+      service.ai.url=http://ai-service:8080 property
