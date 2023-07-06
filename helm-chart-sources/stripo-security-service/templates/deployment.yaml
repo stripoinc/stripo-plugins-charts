@@ -42,7 +42,7 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /version
+              path: /actuator/health/liveness
               port: 8081
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -51,7 +51,7 @@ spec:
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           readinessProbe:
             httpGet:
-              path: /version
+              path: /actuator/health/readiness
               port: 8081
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
