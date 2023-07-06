@@ -120,7 +120,7 @@ configmap:
     log.properties: |
       logging.level.root=INFO
     base.properties: |
-      management.port=8080
+      management.port=8081
       management.address=0.0.0.0
       app.version=@docker.image.tag@
       build.time=@timestamp@
