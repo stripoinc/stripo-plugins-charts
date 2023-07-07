@@ -111,9 +111,16 @@ env:
   - name: JVM_MEMORY_OPTS
     value: -Xss256k -Xms128m -Xmx256m -XX:ReservedCodeCacheSize=128M  -Dspring.cloud.config.enabled=false
 
+
 configmap:
   enabled: true
   extraScrapeConfigs:
+    application.properties: |
+      spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_securitydb
+      spring.datasource.username=example
+      spring.datasource.password=secret
+    log.properties: |
+      logging.level.root=INFO
     base.properties: |
       spring.datasource.url=jdbc:postgresql://postgres:5432/ai_service
       spring.datasource.username=example
