@@ -120,13 +120,11 @@ configmap:
     log.properties: |
       logging.level.root=INFO
     base.properties: |
-      management.port=8081
       management.address=0.0.0.0
       app.version=@docker.image.tag@
       build.time=@timestamp@
       management.security.enabled=false
       spring.zipkin.enabled=false
-      management.endpoints.web.exposure.include=*
       auth.swaggerUsername=stripe-swagger-user
       auth.swaggerPassword=secret
       base.app.url=
@@ -135,3 +133,7 @@ configmap:
       amp.validator.password=secret
       amp.validator.active=true
       use.security.policy.for.amp=false
+      management.server.port=8081
+      management.endpoints.web.exposure.include=health,prometheus,metrics
+      management.endpoint.health.probes.enabled=true
+      management.metrics.tags.application=${spring.application.name}
