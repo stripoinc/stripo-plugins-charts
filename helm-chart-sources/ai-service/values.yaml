@@ -122,6 +122,7 @@ configmap:
       chat-gpt.model=gpt-3.5-turbo
       chat-gpt.temperature=1.0
       service.mode=plugin
+      chat-gpt.stream.timeout=60000
       management.endpoints.web.exposure.include=health,prometheus,metrics
       management.endpoint.health.probes.enabled=true
       management.metrics.tags.application=${spring.application.name}
