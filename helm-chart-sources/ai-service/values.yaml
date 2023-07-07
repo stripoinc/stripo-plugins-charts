@@ -114,7 +114,7 @@ env:
 configmap:
   enabled: true
   extraScrapeConfigs:
-    application.properties: |
+    base.properties: |
       spring.datasource.url=jdbc:postgresql://postgres:5432/ai_service
       spring.datasource.username=example
       spring.datasource.password=secret
