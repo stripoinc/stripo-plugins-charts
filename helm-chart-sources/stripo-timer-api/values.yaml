@@ -144,5 +144,9 @@ configmap:
       spring.security.user.password=secret
       spring.security.user.passwordV2=secret
       spring.security.user.roles=USER
+      management.server.port=8081
+      management.endpoints.web.exposure.include=health,prometheus,metrics
+      management.endpoint.health.probes.enabled=true
+      management.metrics.tags.application=${spring.application.name}
     log.properties: |
       logging.level.root=INFO

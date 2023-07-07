@@ -116,14 +116,16 @@ configmap:
     log.properties: |
       logging.level.root=INFO
     base.properties: |
-      management.port=8081
       management.address=0.0.0.0
       app.version=@docker.image.tag@
       build.time=@timestamp@
       management.security.enabled=false
       spring.zipkin.enabled=false
-      management.endpoints.web.exposure.include=*
       stripo.security.service.baseUrl=http://stripo-security-service:8080
       stripo.security.service.username=security-service
       stripo.security.service.password=secret
       stripo.security.service.passwordV2=secret
+      management.server.port=8081
+      management.endpoints.web.exposure.include=health,prometheus,metrics
+      management.endpoint.health.probes.enabled=true
+      management.metrics.tags.application=${spring.application.name}
