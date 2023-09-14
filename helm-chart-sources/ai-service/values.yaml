@@ -116,15 +116,12 @@ configmap:
   enabled: true
   extraScrapeConfigs:
     application.properties: |
-      spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_securitydb
+      spring.datasource.url=jdbc:postgresql://postgres:5432/ai_service
       spring.datasource.username=example
       spring.datasource.password=secret
     log.properties: |
       logging.level.root=INFO
     base.properties: |
-      spring.datasource.url=jdbc:postgresql://postgres:5432/ai_service
-      spring.datasource.username=example
-      spring.datasource.password=secret
       chat-gpt.baseUrl=https://api.openai.com
       chat-gpt.model=gpt-3.5-turbo
       chat-gpt.temperature=1.0
