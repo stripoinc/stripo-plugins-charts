@@ -7,7 +7,7 @@ replicaCount: 1
 DeadlineSeconds: 120
 
 image:
-  repository: esputnik/screenshot-service
+  repository: stripo/screenshot-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

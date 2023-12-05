@@ -7,7 +7,7 @@ replicaCount: 1
 DeadlineSeconds: 120
 
 image:
-  repository: esputnik/stripo-plugin-image-bank-service
+  repository: stripo/stripo-plugin-image-bank-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
