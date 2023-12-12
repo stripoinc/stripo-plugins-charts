@@ -7,7 +7,7 @@ replicaCount: 1
 DeadlineSeconds: 300
 
 image:
-  repository: 214147298139.dkr.ecr.eu-west-1.amazonaws.com/stripo/stripo-security-service
+  repository: stripo/stripo-security-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
