@@ -12,5 +12,5 @@ spec:
     port: actuator
   selector:
     matchLabels:
-      io.kompose.service: {{ include "application.name" . }}
+      app.kubernetes.io/name: {{ include "application.name" . }}
 {{- end }}
