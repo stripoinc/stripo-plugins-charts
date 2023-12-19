@@ -28,20 +28,23 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+serviceMonitor:
+  enabled: false
+
 livenessProbe:
-  initialDelaySeconds: 120
+  initialDelaySeconds: 60
   periodSeconds: 10
   failureThreshold: 6
 
 readinessProbe:
-  initialDelaySeconds: 40
+  initialDelaySeconds: 30
   periodSeconds: 10
   failureThreshold: 8
 
-podAnnotations: 
-  prometheus.io/scrape: "true"
-  prometheus.io/path: "/actuator/prometheus"
-  prometheus.io/port: "8080"
+podAnnotations: {}
+#  prometheus.io/scrape: "true"
+#  prometheus.io/path: "/actuator/prometheus"
+#  prometheus.io/port: "8080"
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -83,6 +86,7 @@ resources:
     memory: 628Mi
   requests:
     memory: 628Mi
+
 
 autoscaling:
   enabled: false

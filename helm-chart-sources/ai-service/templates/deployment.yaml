@@ -40,10 +40,13 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            - name: actuator
+              containerPort: 8081
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8081
+              port: actuator
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             successThreshold: 1
@@ -52,7 +55,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8081
+              port: actuator
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successThreshold: 1
