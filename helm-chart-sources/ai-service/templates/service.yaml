@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: 8081
+      targetPort: actuator
+      protocol: TCP
+      name: actuator
   selector:
     {{- include "ai-service.selectorLabels" . | nindent 4 }}
