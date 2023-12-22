@@ -80,8 +80,8 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: patches-service
-      {{- end }}           
+            name: stripo-plugin-third-party-test-service
+      {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
