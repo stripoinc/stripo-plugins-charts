@@ -46,7 +46,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /version
-              port: http
+              port: actuator
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             successThreshold: 1
@@ -55,7 +55,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /version
-              port: http
+              port: actuator
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successThreshold: 1
