@@ -1,6 +1,6 @@
 apiVersion: v2
-name: template-service
-description: template-service
+name: save-notifications-orchestrator-service
+description: save-notifications-orchestrator-service
 
 # A chart can be either an 'application' or a 'library' chart.
 #
