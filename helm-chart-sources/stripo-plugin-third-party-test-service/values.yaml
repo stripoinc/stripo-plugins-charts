@@ -34,7 +34,7 @@ livenessProbe:
   failureThreshold: 3
 
 readinessProbe:
-  initialDelaySeconds: 40
+  initialDelaySeconds: 20
   periodSeconds: 15
   failureThreshold: 3
 
