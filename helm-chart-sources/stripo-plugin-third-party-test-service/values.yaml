@@ -29,12 +29,12 @@ serviceMonitor:
   enabled: false
 
 livenessProbe:
-  initialDelaySeconds: 60
+  initialDelaySeconds: 40
   periodSeconds: 15
   failureThreshold: 3
 
 readinessProbe:
-  initialDelaySeconds: 30
+  initialDelaySeconds: 40
   periodSeconds: 15
   failureThreshold: 3
 
