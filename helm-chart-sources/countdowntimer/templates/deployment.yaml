@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "countdowntimer.fullname" . }}
+  name: {{ include "application.fullname" . }}
   labels:
-    {{- include "countdowntimer.labels" . | nindent 4 }}
+    {{- include "application.labels" . | nindent 4 }}
 spec:
   strategy:
     type: Recreate
@@ -12,7 +12,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "countdowntimer.selectorLabels" . | nindent 6 }}
+      {{- include "application.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,13 +20,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "countdowntimer.selectorLabels" . | nindent 8 }}
+        {{- include "application.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "countdowntimer.serviceAccountName" . }}
+      serviceAccountName: {{ include "application.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
