@@ -125,6 +125,7 @@ configmap:
       CACHE_LIFETIME: 30
       UPLOAD_FOLDER: '/opt/uploads'
 
+
 volume:
   enabled: true
   storageClass:

@@ -130,8 +130,6 @@ configmap:
       logging.level.root=INFO
     base.properties: |
       management.address=0.0.0.0
-      app.version=@docker.image.tag@
-      build.time=@timestamp@
       management.security.enabled=false
       spring.zipkin.enabled=false
       spring.datasource.hikari.minimum-idle=5
