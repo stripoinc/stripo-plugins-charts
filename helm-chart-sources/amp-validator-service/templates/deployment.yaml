@@ -68,7 +68,7 @@ spec:
           {{- if .Values.configmap.enabled }}
           volumeMounts:
             - name: properties
-              mountPath: /config   
+              mountPath: /config
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
