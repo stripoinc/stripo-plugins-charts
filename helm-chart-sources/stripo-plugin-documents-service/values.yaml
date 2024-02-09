@@ -41,7 +41,8 @@ readinessProbe:
   periodSeconds: 10
   failureThreshold: 8
 
-podAnnotations: {}
+podAnnotations:
+  test: test
 
 podSecurityContext: {}
   # fsGroup: 2000
