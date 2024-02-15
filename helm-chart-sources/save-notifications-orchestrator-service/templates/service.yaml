@@ -11,9 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-    - port: 8081
-      targetPort: actuator
+    - port: 9145
+      targetPort: prometheus
       protocol: TCP
-      name: actuator
+      name: prometheus
   selector:
     {{- include "application.selectorLabels" . | nindent 4 }}

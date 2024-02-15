@@ -8,8 +8,8 @@ metadata:
   name: {{ include "application.name" . }}
 spec:
   endpoints:
-  - path: /actuator/prometheus
-    port: actuator
+  - path: /metrics
+    port: prometheus
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "application.name" . }}
