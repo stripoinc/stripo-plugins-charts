@@ -40,8 +40,8 @@ spec:
             - name: http
               containerPort: 7071
               protocol: TCP
-            - name: actuator
-              containerPort: 8081
+            - name: prometheus
+              containerPort: 9145
               protocol: TCP
           livenessProbe:
             httpGet:
