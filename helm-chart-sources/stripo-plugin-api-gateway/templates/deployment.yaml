@@ -38,15 +38,15 @@ spec:
             {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
             - name: actuator
-              containerPort: 8081
+              containerPort: {{ .Values.actuator.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8080
+              port: {{ .Values.actuator.port }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             successThreshold: 1
@@ -55,7 +55,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8080
+              port: {{ .Values.actuator.port }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successThreshold: 1
@@ -64,7 +64,7 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ["sleep", "5"]  
+                command: ["sleep", "5"]
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.configmap.enabled }}
