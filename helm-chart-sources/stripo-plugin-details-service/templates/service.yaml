@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "stripo-plugin-details-service.fullname" . }}
+  name: {{ include "stripo-plugin-api-gateway.fullname" . }}
   labels:
-    {{- include "stripo-plugin-details-service.labels" . | nindent 4 }}
+    {{- include "stripo-plugin-api-gateway.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -11,9 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-    - port: 8081
+    - port: {{ .Values.actuator.port }}
       targetPort: actuator
       protocol: TCP
       name: actuator
   selector:
-    {{- include "stripo-plugin-details-service.selectorLabels" . | nindent 4 }}
+    {{- include "stripo-plugin-api-gateway.selectorLabels" . | nindent 4 }}

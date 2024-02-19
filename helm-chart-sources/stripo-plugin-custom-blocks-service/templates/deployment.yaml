@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "stripo-plugin-custom-blocks-service.fullname" . }}
+  name: {{ include "stripo-plugin-api-gateway.fullname" . }}
   labels:
-    {{- include "stripo-plugin-custom-blocks-service.labels" . | nindent 4 }}
+    {{- include "stripo-plugin-api-gateway.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
-  progressDeadlineSeconds: {{ .Values.DeadlineSeconds }} 
+  progressDeadlineSeconds: {{ .Values.DeadlineSeconds }}  
   selector:
     matchLabels:
-      {{- include "stripo-plugin-custom-blocks-service.selectorLabels" . | nindent 6 }}
+      {{- include "stripo-plugin-api-gateway.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,13 +19,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "stripo-plugin-custom-blocks-service.selectorLabels" . | nindent 8 }}
+        {{- include "stripo-plugin-api-gateway.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "stripo-plugin-custom-blocks-service.serviceAccountName" . }}
+      serviceAccountName: {{ include "stripo-plugin-api-gateway.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -35,18 +35,18 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}         
+            {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
             - name: actuator
-              containerPort: 8081
+              containerPort: {{ .Values.actuator.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 8080
+              port: {{ .Values.actuator.port }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             successThreshold: 1
@@ -55,7 +55,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 8080
+              port: {{ .Values.actuator.port }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successThreshold: 1
@@ -71,7 +71,7 @@ spec:
           volumeMounts:
             - name: properties
               mountPath: /config
-          {{- end }}                 
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -84,9 +84,10 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: stripo-plugin-custom-blocks-service
-      {{- end }}       
+            name: stripo-plugin-api-gateway
+      {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+   

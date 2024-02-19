@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "application.fullname" . }}
+  name: {{ include "stripo-plugin-api-gateway.fullname" . }}
   labels:
-    {{- include "application.labels" . | nindent 4 }}
+    {{- include "stripo-plugin-api-gateway.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -11,7 +11,7 @@ spec:
   progressDeadlineSeconds: {{ .Values.DeadlineSeconds }}  
   selector:
     matchLabels:
-      {{- include "application.selectorLabels" . | nindent 6 }}
+      {{- include "stripo-plugin-api-gateway.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,13 +19,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "application.selectorLabels" . | nindent 8 }}
+        {{- include "stripo-plugin-api-gateway.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "application.serviceAccountName" . }}
+      serviceAccountName: {{ include "stripo-plugin-api-gateway.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -35,18 +35,18 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}          
+            {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
             - name: actuator
-              containerPort: 8081
+              containerPort: {{ .Values.actuator.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /version
-              port: http
+              path: /actuator/health/liveness
+              port: {{ .Values.actuator.port }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             successThreshold: 1
@@ -54,19 +54,23 @@ spec:
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           readinessProbe:
             httpGet:
-              path: /version
-              port: http
+              path: /actuator/health/readiness
+              port: {{ .Values.actuator.port }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "5"]
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.configmap.enabled }}
           volumeMounts:
             - name: properties
-              mountPath: /usr/src/app/config/
+              mountPath: /config
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -80,9 +84,10 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: stripo-plugin-third-party-test-service
+            name: stripo-plugin-api-gateway
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+   

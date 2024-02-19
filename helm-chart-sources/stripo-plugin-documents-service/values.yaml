@@ -59,6 +59,9 @@ service:
   type: ClusterIP
   port: 8080
 
+actuator:
+  port: 8080
+
 ingress:
   enabled: false
   className: ""
