@@ -60,7 +60,7 @@ service:
 
 
 actuator:
-  port: 8080
+  port: 8081
 
 ingress:
   enabled: false
