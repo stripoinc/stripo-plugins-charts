@@ -80,7 +80,7 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: model-api-gateway
+            name: coediting-core-service
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:

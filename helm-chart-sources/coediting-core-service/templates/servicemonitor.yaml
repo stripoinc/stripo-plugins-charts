@@ -1,0 +1,16 @@
+{{- if eq .Values.serviceMonitor.enabled true }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  annotations:
+  labels:
+    {{- include "application.labels" . | nindent 4 }}
+  name: {{ include "application.name" . }}
+spec:
+  endpoints:
+  - path: /metrics
+    port: prometheus
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "application.name" . }}
+{{- end }}
