@@ -1,6 +1,6 @@
 apiVersion: v2
-name: coediting-core-service
-description: coediting-core-service
+name: go-template-service
+description: go-template-service
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -35,7 +35,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}          
+            {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: http
               containerPort: 7071
@@ -61,13 +61,24 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: /version
+              port: http
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.configmap.enabled }}
           volumeMounts:
             - name: properties
               mountPath: /usr/src/app/config/
-          {{- end }}                    
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -80,7 +91,7 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: coediting-core-service
+            name: {{ .Values.fullnameOverride }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
