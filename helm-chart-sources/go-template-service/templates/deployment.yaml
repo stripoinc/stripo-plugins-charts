@@ -52,6 +52,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- if .Values.readinessProbe }}
           readinessProbe:
             httpGet:
               path: /version
@@ -61,6 +62,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
           {{- if .Values.startupProbe }}
           startupProbe:
             httpGet:
