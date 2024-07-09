@@ -30,14 +30,14 @@ serviceMonitor:
   enabled: false
 
 livenessProbe:
-  initialDelaySeconds: 10
+  initialDelaySeconds: 1
   periodSeconds: 10
-  failureThreshold: 3
+  failureThreshold: 2
 
-readinessProbe:
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  failureThreshold: 3
+startupProbe:
+  initialDelaySeconds: 1
+  periodSeconds: 1
+  failureThreshold: 30
 
 podAnnotations: {}
 
