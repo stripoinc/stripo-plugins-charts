@@ -2,9 +2,8 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-nameOverride: ""
 
-DeadlineSeconds: 120
+DeadlineSeconds: 60
 
 image:
   repository: stripo/go-template-service
@@ -69,16 +68,18 @@ ingress:
 
 resources:
   limits:
-    memory: 628Mi
+    memory: 400Mi
+    cpu: 1000m
   requests:
-    memory: 628Mi
+    memory: 100Mi
+    cpu: 150m
 
 autoscaling:
   enabled: false
-  minReplicas: 1
-  maxReplicas: 100
+  minReplicas: 2
+  maxReplicas: 4
+  targetMemoryUtilizationPercentage: 80
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
@@ -86,15 +87,11 @@ tolerations: []
 
 affinity: {}
 
-env:
-  - name: APPNAME
-    value: go-template-service
-  - name: PROFILE
-    value: dev-plugins
-  - name: ENV
-    value: dev-plugins
-  - name: DOCKER_HOST
-    value: dev-plugins
-
+settings:
+  profile: dev-plugins
+  golang:
+    goMaxProcs: "1"
+    goMemLimit: 300Mib
+    goGc: "50"
 configmap:
   enabled: false
