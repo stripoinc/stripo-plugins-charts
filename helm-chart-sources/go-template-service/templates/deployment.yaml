@@ -35,6 +35,85 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: APPNAME
+              value: {{ .Values.nameOverride }}
+            - name: ENV
+              value: {{ .Values.settings.profile }}
+            - name: PROFILE
+              value: {{ .Values.settings.profile }}
+            - name: DOCKER_HOST
+              value: {{ .Values.settings.profile }}
+            {{- if .Values.settings.golang.goMaxProcs }}
+            - name: GOMAXPROCS
+              value: {{ .Values.settings.golang.goMaxProcs }}
+            {{- end }}
+            {{- if .Values.settings.golang.goMemLimit }}
+            - name: GOMEMLIMIT
+              value: {{ .Values.settings.golang.goMemLimit }}
+            {{- end }}
+            {{- if .Values.settings.golang.goGc }}
+            - name: GOGC
+              value: {{ .Values.settings.golang.goGc }}
+            {{- end }}
+            {{- if .Values.settings.cockroachDb }}
+            - name: COCKROACH_CONNECTION_STRING
+              value: "postgresql://{{ .Values.settings.cockroachDb.username }}:{{ .Values.settings.cockroachDb.password }}@{{ .Values.settings.cockroachDb.host }}:{{ .Values.settings.cockroachDb.port }}/%s"
+            - name: COCKROACH_DB
+              value: {{ .Values.settings.cockroachDb.databaseName }}
+            {{- end }}
+            {{- if .Values.settings.nats }}
+            - name: NATS_URL
+              value: {{ .Values.settings.nats.url }}
+            - name: NATS_USER
+              value: {{ .Values.settings.nats.user }}
+            - name: NATS_PASSWORD
+              value: {{ .Values.settings.nats.password }}
+            {{- end }}
+            {{- if .Values.settings.redis.clusterUrl }}
+            - name: REDIS_ADDRESS
+              value: {{ .Values.settings.redis.clusterUrl }}
+            {{- else }}
+            - name: REDIS_HOST
+              value: {{ .Values.settings.redis.host }}
+            - name: REDIS_PORT
+              value: {{ .Values.settings.redis.port }}
+            - name: REDIS_PASSWORD
+              value: {{ .Values.settings.redis.password }}
+            {{- end }}
+            {{- if .Values.settings.logstash }}
+            - name: LOGSTASH_HOST
+              value: {{ .Values.settings.logstash.host }}
+            - name: LOGSTASH_PORT
+              value: {{ .Values.settings.logstash.port }}
+            {{- end }}
+            {{- if .Values.settings.auth.jwt }}
+            - name: PLUGIN_AUTH_JWT_SECRET_KEY
+              value: {{ .Values.settings.auth.jwt.secret }}
+            {{- end }}
+            {{- if .Values.settings.auth.base64.htmlCssV1Request }}
+            - name: DIRTY_MODEL_PRIVATE_ENDPOINT_USERNAME
+              value: {{ .Values.settings.auth.base64.htmlCssV1Request.username }}
+            - name: DIRTY_MODEL_PRIVATE_ENDPOINT_PASSWORD
+              value: {{ .Values.settings.auth.base64.htmlCssV1Request.password }}
+            {{- end }}
+            {{- if .Values.settings.accessControlAllowOrigin }}
+            - name: HTTP_CORS_ALLOWED_ORIGINS
+              value: {{ .Values.settings.accessControlAllowOrigin }}
+            {{- end }}
+            {{- if .Values.settings.changedEmailNotificationDebounceTime }}
+            - name: CHANGED_EMAIL_NOTIFICATION_SEND_DEBOUNCE_TIME
+              value: {{ .Values.settings.changedEmailNotificationDebounceTime }}
+            {{- end }}
+            {{- if .Values.settings.rateLimits }}
+            - name: RATE_LIMITER_WEBSOCKET_MSGS_DEFAULT_JSON_CONFIG
+              value: {{ .Values.settings.rateLimits.ws.defaultMessage }}
+            - name: RATE_LIMITER_WEBSOCKET_MSGS_CURSOR_JSON_CONFIG
+              value: {{ .Values.settings.rateLimits.ws.cursorMessage }}
+            - name: RATE_LIMITER_HTTP_JSON_CONFIG_DEFAULT
+              value: {{ .Values.settings.rateLimits.rest.defaultRequest }}
+            - name: RATE_LIMITER_HTTP_JSON_CONFIG
+              value: "{\"EmailModelCompilationV1\":{{ .Values.settings.rateLimits.rest.compileRequest }}, \"EmailModelHtmlCssV1\":{{ .Values.settings.rateLimits.rest.htmlCssV1Request }}"
+            {{- end }}
             {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: http
