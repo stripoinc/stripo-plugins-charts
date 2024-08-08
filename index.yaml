@@ -251,14 +251,14 @@ entries:
   go-template-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-07-09T18:46:23.955131+03:00"
+    created: "2024-08-09T13:37:40.905903+03:00"
     description: go-template-service
-    digest: 5371d3cc28af2baaf4bf185a3a635cfbef577ff71d8997fdb9c08a4206109fc6
+    digest: 63cb28a75e11a231717a81a1188d5e937d1ba0a287f33c6058afa8cd223c40e4
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: go-template-service
     type: application
     urls:
-    - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/go-template-service-0.5.1.tgz
+      - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/go-template-service-0.5.1.tgz
     version: 0.5.1
   merge-service:
   - apiVersion: v2
