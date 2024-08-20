@@ -141,3 +141,6 @@ configmap:
       auth.password=secret
       auth.passwordV2=secret
       server.port=8080
+
+
+dumpCollectorEnable: false

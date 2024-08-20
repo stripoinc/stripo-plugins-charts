@@ -136,3 +136,6 @@ configmap:
       management.metrics.tags.application=${spring.application.name}
       management.server.port=8081
       management.tracing.sampling.probability=0
+
+
+dumpCollectorEnable: false
