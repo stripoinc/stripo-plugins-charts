@@ -153,3 +153,6 @@ configmap:
       management.metrics.tags.application=${spring.application.name}
     log.properties: |
       logging.level.root=INFO
+
+
+dumpCollectorEnable: false
