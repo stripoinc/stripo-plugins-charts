@@ -64,7 +64,21 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: APPNAME
+              value: stripo-plugin-drafts-service
+            {{- if and .Values.settings .Values.settings.profile }}
+            - name: ENV
+              value: {{ .Values.settings.profile }}
+            - name: PROFILE
+              value: {{ .Values.settings.profile }}
+            {{- end }}
+            - name: SPRING_CONFIG_NAME
+              value: base,application
+            - name: SPRING_CONFIG_LOCATION
+              value: "optional:classpath:/,optional:file:/config/"
+            {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -90,6 +104,17 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: {{ .Values.actuator.port }}
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
           lifecycle:
             preStop:
               exec:
@@ -136,4 +161,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-   

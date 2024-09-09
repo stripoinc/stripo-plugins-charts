@@ -35,7 +35,11 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: APPNAME
+              value: amp-validator-service
+            {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
@@ -52,6 +56,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- if .Values.readinessProbe }}
           readinessProbe:
             httpGet:
               path: /version
@@ -61,6 +66,18 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: /version
+              port: http
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
           lifecycle:
               preStop:
                 exec:
