@@ -19,6 +19,8 @@ data:
     {{- end }}
     {{- if .Values.settings.jwtSecretKey }}
     SECRET_KEY: {{ .Values.settings.jwtSecretKey }}
+    {{- else }}
+    SECRET_KEY: GRvmsjKfTvaL1CDqrhhXXKWq5
     {{- end }}
     FONT_UPLOAD_FOLDER: '/usr/local/countdowntimer/fonts'
     GIF_FOLDER: '/opt/sources'
