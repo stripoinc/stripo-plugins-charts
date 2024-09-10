@@ -43,7 +43,7 @@ readinessProbe:
 startupProbe:
   initialDelaySeconds: 10
   periodSeconds: 1
-  failureThreshold: 60
+  failureThreshold: 90
 
 podAnnotations: {}
 
@@ -85,7 +85,7 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     memory: 1200Mi
-    cpu: 350m
+    cpu: 500m
   requests:
     memory: 1200Mi
     cpu: 200m
@@ -106,8 +106,6 @@ affinity: {}
 env: 
   - name: JAVA_TOOL_OPTIONS
     value: -Xss256k -Xms400m -Xmx512m -XX:MaxMetaspaceSize=256m -XX:-UseGCOverheadLimit -Djava.net.preferIPv4Stack=true
-  - name: JVM_MEMORY_OPTS
-    value: -Dspring.cloud.config.enabled=false -Daws.secretsmanager.enabled=false
 
 configmap:
   enabled: true

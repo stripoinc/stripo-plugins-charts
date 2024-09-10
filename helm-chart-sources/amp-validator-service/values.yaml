@@ -80,7 +80,7 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     memory: 400Mi
-    cpu: 200m
+    cpu: 500m
   requests:
     memory: 100Mi
     cpu: 100m
@@ -104,8 +104,8 @@ configmap:
     default.json: |
       {
         "auth": {
-          "username": "",
-          "password": ""
+          "username": "ampuser",
+          "password": "t7sDqz58dEd2I38EcH9PBgBsqz"
         },
         "server": {
           "port": 8080

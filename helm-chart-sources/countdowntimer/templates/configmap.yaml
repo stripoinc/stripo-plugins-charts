@@ -1,8 +1,27 @@
-{{- if .Values.configmap.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: countdowntimer
 data:
-{{ toYaml .Values.configmap.extraScrapeConfigs | indent 2 }}
-{{- end }}
+  config.yaml: |
+    {{- if .Values.settings.host }}
+    HOST: {{ .Values.settings.host }}
+    {{- end }}
+    USE_HTTPS: true
+    {{- if .Values.settings.postgresDb }}
+    DB_HOST: {{ .Values.settings.postgresDb.host }}
+    DB_PORT: {{ .Values.settings.postgresDb.port }}
+    DB_NAME: {{ .Values.settings.postgresDb.databaseName }}
+    DB_USER: {{ .Values.settings.postgresDb.username }}
+    DB_PASSWORD: {{ .Values.settings.postgresDb.password }}
+    {{- end }}
+    {{- if .Values.settings.jwtSecretKey }}
+    SECRET_KEY: {{ .Values.settings.jwtSecretKey }}
+    {{- end }}
+    FONT_UPLOAD_FOLDER: '/usr/local/countdowntimer/fonts'
+    GIF_FOLDER: '/opt/sources'
+    PROD: true
+    GIF_URL: '/api-files/'
+    UPLOAD_URL: '/api-uploads/'
+    CACHE_LIFETIME: 30
+    UPLOAD_FOLDER: '/opt/uploads'

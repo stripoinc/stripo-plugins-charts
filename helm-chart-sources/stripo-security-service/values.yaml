@@ -88,7 +88,7 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     memory: 500Mi
-    cpu: 100m
+    cpu: 500m
   requests:
     memory: 400Mi
     cpu: 10m
@@ -107,10 +107,8 @@ tolerations: []
 affinity: {}
 
 env:
-  - name: JVM_MEMORY_OPTS
-    value: -Dspring.cloud.config.enabled=false -Daws.secretsmanager.enabled=false
   - name: JAVA_TOOL_OPTIONS
-    value: -Xss128k -Xms128m -Xmx256m -XX:ReservedCodeCacheSize=128M
+    value: -Xss256k -Xms128m -Xmx256m -XX:ReservedCodeCacheSize=128M
 
 configmap:
   enabled: true

@@ -39,6 +39,11 @@ startupProbe:
   periodSeconds: 1
   failureThreshold: 60
 
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 1000m
+
 podAnnotations: {}
 
 podSecurityContext: {}
@@ -89,26 +94,6 @@ affinity: {}
 env: 
   - name: PLUGIN_PATCHES
     value: "true"
-
-configmap:
-  enabled: true
-  extraScrapeConfigs:
-    config.yaml: |
-      HOST: countdowntimer.stripo
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: countdowntimer
-      DB_USER: example
-      DB_PASSWORD: secret
-      SECRET_KEY: secret
-      FONT_UPLOAD_FOLDER: '/usr/local/countdowntimer/fonts'
-      GIF_FOLDER: '/opt/sources'
-      PROD: true
-      GIF_URL: '/api-files/'
-      UPLOAD_URL: '/api-uploads/'
-      CACHE_LIFETIME: 30
-      UPLOAD_FOLDER: '/opt/uploads'
-
 
 volume:
   enabled: true

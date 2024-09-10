@@ -86,7 +86,6 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.configmap.enabled }}
           volumeMounts:
             - name: properties
               mountPath: /usr/local/countdowntimer/config.yaml
@@ -95,7 +94,6 @@ spec:
             - name: storage
               mountPath: /opt/uploads/
           {{- end }}
-          {{- end }}                
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -104,7 +102,6 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.configmap.enabled }}
       volumes:
         - name: properties
           configMap:
@@ -114,7 +111,6 @@ spec:
           persistentVolumeClaim:
             claimName: countdowntimer-pv-claim
       {{- end }}    
-      {{- end }}          
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
