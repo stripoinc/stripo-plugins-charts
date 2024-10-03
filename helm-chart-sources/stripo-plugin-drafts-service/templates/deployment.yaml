@@ -30,15 +30,10 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
 
       {{- if .Values.dumpCollectorEnable }}
-      {{- $profile := "" -}}
-      {{- $appname := "" -}}
-      {{- range .Values.env }}
-        {{- if eq .name "PROFILE" }}
-          {{- $profile = .value -}}
-        {{- end -}}
-        {{- if eq .name "APPNAME" }}
-          {{- $appname = .value -}}
-        {{- end -}}
+      {{- $profile := "" }}
+      {{- $appname := "stripo-plugin-drafts-service" }}
+      {{- if and .Values.settings .Values.settings.profile }}
+      {{- $profile = .Values.settings.profile }}
       {{- end }}
       initContainers:
         - name: volume-mount-hack
@@ -51,7 +46,10 @@ spec:
               chmod -R 777 /dumps/{{ $profile }}/{{ $appname }}
           imagePullPolicy: Always
           env:
-            {{- toYaml .Values.env | nindent 10 }}
+            {{- range .Values.env }}
+            - name: "{{ .name }}"
+              value: "{{ .value }}"
+            {{- end }}
           volumeMounts:
             - name: dumps
               mountPath: /dumps
