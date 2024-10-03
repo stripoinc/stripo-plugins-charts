@@ -30,14 +30,19 @@ serviceMonitor:
   enabled: false
 
 livenessProbe:
-  initialDelaySeconds: 120
+  initialDelaySeconds: 1
   periodSeconds: 10
-  failureThreshold: 6
+  failureThreshold: 2
 
 readinessProbe:
-  initialDelaySeconds: 40
+  initialDelaySeconds: 2
   periodSeconds: 10
-  failureThreshold: 8
+  failureThreshold: 2
+
+startupProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 1
+  failureThreshold: 60
 
 podAnnotations: {}
 
@@ -81,9 +86,11 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    memory: 612Mi
+    memory: 1000Mi
+    cpu: 300m
   requests:
-    memory: 612Mi
+    memory: 750Mi
+    cpu: 150m
 
 autoscaling:
   enabled: false
@@ -99,54 +106,33 @@ tolerations: []
 affinity: {}
 
 env: 
-  - name: APPNAME
-    value: stripo-plugin-api-gateway
-  - name: ENV
-    value: PLUGINS
-  - name: PROFILE
-    value: PLUGINS
-  - name: SPRING_CONFIG_NAME
-    value: application,jdbc,log,base
-  - name: SPRING_CONFIG_LOCATION
-    value: file:///config/
-  - name: JVM_MEMORY_OPTS
-    value: -Xss256k -Xms256m -Xmx400m -XX:PermSize=128M -XX:MaxPermSize=128M -XX:ReservedCodeCacheSize=128M -Dspring.cloud.config.enabled=false
-
+  - name: JAVA_TOOL_OPTIONS
+    value: -Xss256k -Xms400m -Xmx512m -XX:ReservedCodeCacheSize=128M
 
 configmap:
   enabled: true
   extraScrapeConfigs:
-    application.properties: |
-      jwt.secret.apiKeyV2=secret
-      jwt.secret.expirationInMinutes=30
-    log.properties: |
-      logging.level.root=INFO
     base.properties: |
-      auth.innerServiceUsername=innerPluginApiUsername
-      auth.innerServicePassword=test
-      management.address=0.0.0.0
-      app.version=@docker.image.tag@
-      build.time=@timestamp@
-      management.security.enabled=false
-      spring.zipkin.enabled=false
-      service.timer.url=http://stripo-timer-api:8080
-      service.timer.username=timeradmin
-      service.timer.password=secret
-      jwt.secret.cabinetKey=secretN0
-      jwt.secret.cabinetKeyV2=secretN0
-      jwt.secret.apiKey=secretN0
       service.plugindetails.url=http://stripo-plugin-details-service:8080
       service.customblocks.url=http://stripo-plugin-custom-blocks-service:8080
-      service.drafts.url=http://stripo-plugin-drafts-service:8080
       service.documents.url=http://stripo-plugin-documents-service:8080
+      service.drafts.url=http://stripo-plugin-drafts-service:8080
       service.imagesbank.url=http://stripo-plugin-image-bank-service:8080
       service.htmlgen.url=http://stripe-html-gen-service:8080
       service.htmlcleaner.url=http://stripe-html-cleaner-service:8080
       service.statistics.url=http://stripo-plugin-statistics-service:8080
+      service.timer.url=http://stripo-timer-api:8080
       service.ai.url=http://ai-service:8080
+      management.address=0.0.0.0
+      management.security.enabled=false
       management.server.port=8081
       management.endpoints.web.exposure.include=health,prometheus,metrics
       management.endpoint.health.probes.enabled=true
       management.metrics.tags.application=${spring.application.name}
+      management.tracing.sampling.probability=0
+      spring.zipkin.enabled=false
+      service.timer.username=timeradmin
+      service.timer.password=secret
+      rate.limit.enabled=false
 
 dumpCollectorEnable: false

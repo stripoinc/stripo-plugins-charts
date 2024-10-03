@@ -32,14 +32,19 @@ serviceMonitor:
   enabled: false
 
 livenessProbe:
-  initialDelaySeconds: 60
+  initialDelaySeconds: 1
   periodSeconds: 10
-  failureThreshold: 6
+  failureThreshold: 2
 
 readinessProbe:
-  initialDelaySeconds: 30
+  initialDelaySeconds: 2
   periodSeconds: 10
-  failureThreshold: 8
+  failureThreshold: 2
+
+startupProbe:
+  initialDelaySeconds: 9
+  periodSeconds: 1
+  failureThreshold: 120
 
 podAnnotations: {}
 #  prometheus.io/scrape: "true"
@@ -83,17 +88,18 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    memory: 628Mi
+    memory: 750Mi
+    cpu: 300m
   requests:
-    memory: 628Mi
-
+    memory: 750Mi
+    cpu: 50m
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 2
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
@@ -102,40 +108,13 @@ tolerations: []
 affinity: {}
 
 env: 
-  - name: APPNAME
-    value: ai-service
-  - name: ENV
-    value: PLUGINS
-  - name: PROFILE
-    value: PLUGINS
-  - name: SPRING_CONFIG_NAME
-    value: application,jdbc,log,base
-  - name: SPRING_CONFIG_LOCATION
-    value: file:///config/
-  - name: JVM_MEMORY_OPTS
-    value: -Xss256k -Xms128m -Xmx256m -XX:ReservedCodeCacheSize=128M  -Dspring.cloud.config.enabled=false
-
+  - name: JAVA_TOOL_OPTIONS
+    value: -Xss256k -Xms256m -Xmx512m -XX:ReservedCodeCacheSize=128M
 
 configmap:
   enabled: true
   extraScrapeConfigs:
-    application.properties: |
-      spring.datasource.url=jdbc:postgresql://postgres:5432/ai_service
-      spring.datasource.username=example
-      spring.datasource.password=secret
-    log.properties: |
-      logging.level.root=INFO
     base.properties: |
-      chat-gpt.baseUrl=https://api.openai.com
-      chat-gpt.model=gpt-3.5-turbo
-      chat-gpt.temperature=1.0
       service.mode=plugin
-      chat-gpt.stream.timeout=60000
-      management.endpoints.web.exposure.include=health,prometheus,metrics
-      management.endpoint.health.probes.enabled=true
-      management.metrics.tags.application=${spring.application.name}
-      management.server.port=8081
-      management.tracing.sampling.probability=0
-
 
 dumpCollectorEnable: false

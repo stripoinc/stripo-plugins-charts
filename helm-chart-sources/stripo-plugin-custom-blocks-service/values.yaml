@@ -31,14 +31,19 @@ serviceMonitor:
   enabled: false
 
 livenessProbe:
-  initialDelaySeconds: 120
+  initialDelaySeconds: 1
   periodSeconds: 10
-  failureThreshold: 6
+  failureThreshold: 2
 
 readinessProbe:
-  initialDelaySeconds: 40
+  initialDelaySeconds: 2
   periodSeconds: 10
-  failureThreshold: 8
+  failureThreshold: 2
+
+startupProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 1
+  failureThreshold: 60
 
 podAnnotations: {}
 
@@ -82,16 +87,19 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    memory: 628Mi
+    memory: 1000Mi
+    cpu: 500m
   requests:
-    memory: 628Mi
+    memory: 750Mi
+    cpu: 100m
+
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
@@ -101,35 +109,18 @@ affinity: {}
 
 
 env: 
-  - name: APPNAME
-    value: stripo-plugin-custom-blocks-service
-  - name: ENV
-    value: PLUGINS
-  - name: PROFILE
-    value: PLUGINS
-  - name: SPRING_CONFIG_NAME
-    value: application,jdbc,log,base
-  - name: SPRING_CONFIG_LOCATION
-    value: file:///config/
-  - name: JVM_MEMORY_OPTS
-    value: -Xss256k -Xms256m -Xmx400m -XX:PermSize=128M -XX:MaxPermSize=128M -XX:ReservedCodeCacheSize=128M -Dspring.cloud.config.enabled=false
+  - name: JAVA_TOOL_OPTIONS
+    value: -Xss256k -Xms400m -Xmx512m -XX:ReservedCodeCacheSize=128M
 
 
 configmap:
   enabled: true
   extraScrapeConfigs:
-    application.properties: |
+    base.properties: |
       spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_custom_blocks
       spring.datasource.username=example
       spring.datasource.password=secret
-    log.properties: |
-      logging.level.root=INFO
-    base.properties: |
-      spring.datasource.hikari.minimum-idle=5
-      spring.datasource.hikari.maximum-pool-size=20
       management.address=0.0.0.0
-      app.version=@docker.image.tag@
-      build.time=@timestamp@
       management.security.enabled=false
       spring.zipkin.enabled=false
       plugin.service.documentsUrl=http://stripo-plugin-documents-service:8080
@@ -137,6 +128,5 @@ configmap:
       management.endpoints.web.exposure.include=health,prometheus,metrics
       management.endpoint.health.probes.enabled=true
       management.metrics.tags.application=${spring.application.name}
-
 
 dumpCollectorEnable: false

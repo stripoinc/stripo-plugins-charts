@@ -1,8 +1,31 @@
-{{- if .Values.configmap.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: countdowntimer
 data:
-{{ toYaml .Values.configmap.extraScrapeConfigs | indent 2 }}
-{{- end }}
+  config.yaml: |
+    {{- if .Values.settings.host }}
+    HOST: {{ .Values.settings.host }}
+    {{- end }}
+    USE_HTTPS: true
+    {{- if .Values.settings.postgresDb }}
+    DB_HOST: {{ .Values.settings.postgresDb.host }}
+    DB_PORT: {{ .Values.settings.postgresDb.port }}
+    DB_NAME: {{ .Values.settings.postgresDb.databaseName }}
+    DB_USER: {{ .Values.settings.postgresDb.username }}
+    DB_PASSWORD: {{ .Values.settings.postgresDb.password }}
+    DB_MIN_POOL_SIZE: {{ .Values.settings.postgresDb.connectionMinPoolSize }}
+    DB_MAX_POOL_SIZE: {{ .Values.settings.postgresDb.connectionMaxPoolSize }}
+    {{- end }}
+    {{- if .Values.settings.jwtSecretKey }}
+    SECRET_KEY: {{ .Values.settings.jwtSecretKey }}
+    {{- else }}
+    SECRET_KEY: GRvmsjKfTvaL1CDqrhhXXKWq5
+    {{- end }}
+    FONT_UPLOAD_FOLDER: '/usr/local/countdowntimer/fonts'
+    GIF_FOLDER: '/opt/sources'
+    PROD: true
+    GIF_URL: '/api-files/'
+    UPLOAD_URL: '/api-uploads/'
+    CACHE_LIFETIME: 30
+    UPLOAD_FOLDER: '/opt/uploads'

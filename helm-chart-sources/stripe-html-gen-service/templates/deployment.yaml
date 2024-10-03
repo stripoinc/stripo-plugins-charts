@@ -8,7 +8,7 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
-  progressDeadlineSeconds: {{ .Values.DeadlineSeconds }}  
+  progressDeadlineSeconds: {{ .Values.DeadlineSeconds }}
   selector:
     matchLabels:
       {{- include "stripe-html-gen-service.selectorLabels" . | nindent 6 }}
@@ -28,17 +28,11 @@ spec:
       serviceAccountName: {{ include "stripe-html-gen-service.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-    
       {{- if .Values.dumpCollectorEnable }}
-      {{- $profile := "" -}}
-      {{- $appname := "" -}}
-      {{- range .Values.env }}
-        {{- if eq .name "PROFILE" }}
-          {{- $profile = .value -}}
-        {{- end -}}
-        {{- if eq .name "APPNAME" }}
-          {{- $appname = .value -}}
-        {{- end -}}
+      {{- $profile := "" }}
+      {{- $appname := "stripe-html-gen-service" }}
+      {{- if and .Values.settings .Values.settings.profile }}
+      {{- $profile = .Values.settings.profile }}
       {{- end }}
       initContainers:
         - name: volume-mount-hack
@@ -51,12 +45,14 @@ spec:
               chmod -R 777 /dumps/{{ $profile }}/{{ $appname }}
           imagePullPolicy: Always
           env:
-            {{- toYaml .Values.env | nindent 10 }}
+            {{- range .Values.env }}
+            - name: "{{ .name }}"
+              value: "{{ .value }}"
+            {{- end }}
           volumeMounts:
             - name: dumps
               mountPath: /dumps
       {{- end }}
-      
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -64,7 +60,24 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{- toYaml .Values.env | nindent 12 }}      
+            - name: APPNAME
+              value: stripe-html-gen-service
+            {{- if and .Values.settings .Values.settings.profile }}
+            - name: ENV
+              value: {{ .Values.settings.profile }}
+            - name: PROFILE
+              value: {{ .Values.settings.profile }}
+            {{- end }}
+            - name: SPRING_CONFIG_NAME
+              value: base,application
+            - name: SPRING_CONFIG_LOCATION
+              value: "optional:classpath:/,optional:file:/config/"
+            - name: JVM_MEMORY_OPTS
+              value: -Dspring.cloud.config.enabled=false -Daws.secretsmanager.enabled=false
+            {{- range .Values.env }}
+            - name: "{{ .name }}"
+              value: "{{ .value }}"
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
@@ -90,9 +103,19 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8081
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          
           {{- if or .Values.configmap.enabled .Values.dumpCollectorEnable }}
           volumeMounts:
             {{- if .Values.configmap.enabled }}
@@ -103,8 +126,7 @@ spec:
             - name: dumps
               mountPath: /dumps
             {{- end }}
-          {{- end }}  
-
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -113,7 +135,6 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      
       {{- if or .Values.configmap.enabled .Values.dumpCollectorEnable }}
       volumes:
         {{- if .Values.configmap.enabled }}
@@ -121,14 +142,12 @@ spec:
           configMap:
             name: stripe-html-gen-service
         {{- end }}
-        
         {{- if .Values.dumpCollectorEnable }}
         - name: dumps
           hostPath:
             path: /dumps
         {{- end }}
-      {{- end }}             
-      
+      {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}

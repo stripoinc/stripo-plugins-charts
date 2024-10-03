@@ -36,9 +36,19 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: APPNAME
+              value: countdowntimer
+            {{- if and .Values.settings .Values.settings.profile }}
+            - name: ENV
+              value: {{ .Values.settings.profile }}
+            - name: PROFILE
+              value: {{ .Values.settings.profile }}
+            {{- end }}
             - name: VERSION
               value: {{ .Values.image.tag | default .Chart.AppVersion }}
-            {{- toYaml .Values.env | nindent 12 }}          
+            {{- if .Values.env }}
+            {{- toYaml .Values.env | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 80
@@ -52,6 +62,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- if .Values.readinessProbe }}
           readinessProbe:
             httpGet:
               path: /api/version
@@ -61,9 +72,20 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: /api/version
+              port: http
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.configmap.enabled }}
           volumeMounts:
             - name: properties
               mountPath: /usr/local/countdowntimer/config.yaml
@@ -72,7 +94,6 @@ spec:
             - name: storage
               mountPath: /opt/uploads/
           {{- end }}
-          {{- end }}                
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -81,7 +102,6 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.configmap.enabled }}
       volumes:
         - name: properties
           configMap:
@@ -91,7 +111,6 @@ spec:
           persistentVolumeClaim:
             claimName: countdowntimer-pv-claim
       {{- end }}    
-      {{- end }}          
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}

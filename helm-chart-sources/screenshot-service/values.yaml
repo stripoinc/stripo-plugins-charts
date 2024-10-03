@@ -30,14 +30,14 @@ serviceMonitor:
   enabled: false
 
 livenessProbe:
-  initialDelaySeconds: 120
+  initialDelaySeconds: 1
   periodSeconds: 10
-  failureThreshold: 6
+  failureThreshold: 3
 
-readinessProbe:
-  initialDelaySeconds: 40
-  periodSeconds: 10
-  failureThreshold: 8
+startupProbe:
+  initialDelaySeconds: 1
+  periodSeconds: 1
+  failureThreshold: 60
 
 podAnnotations: {}
 
@@ -78,16 +78,18 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    memory: 512Mi
+    memory: 1000Mi
+    cpu: 1000m
   requests:
     memory: 512Mi
+    cpu: 300m
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
@@ -95,16 +97,9 @@ tolerations: []
 
 affinity: {}
 
-env: 
-  - name: APPNAME
-    value: screenshot-service
-  - name: ENV
-    value: PLUGINS
-  - name: PROFILE
-    value: PLUGINS
+env:
   - name: NODE_MEMORY
-    value: "456"
-
+    value: "500"
 
 configmap:
   enabled: true

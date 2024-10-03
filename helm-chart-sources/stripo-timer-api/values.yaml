@@ -20,7 +20,7 @@ fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
@@ -31,14 +31,19 @@ serviceMonitor:
   enabled: false
 
 livenessProbe:
-  initialDelaySeconds: 120
+  initialDelaySeconds: 1
   periodSeconds: 10
-  failureThreshold: 6
+  failureThreshold: 2
 
 readinessProbe:
-  initialDelaySeconds: 40
+  initialDelaySeconds: 2
   periodSeconds: 10
-  failureThreshold: 8
+  failureThreshold: 2
+
+startupProbe:
+  initialDelaySeconds: 7
+  periodSeconds: 1
+  failureThreshold: 60
 
 podAnnotations: {}
 
@@ -82,16 +87,18 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    memory: 512Mi
+    memory: 1000Mi
+    cpu: 500m
   requests:
-    memory: 512Mi
+    memory: 1000Mi
+    cpu: 200m
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
@@ -99,60 +106,24 @@ tolerations: []
 
 affinity: {}
 
-env: 
-  - name: APPNAME
-    value: stripo-timer-api
-  - name: ENV
-    value: PLUGINS
-  - name: PROFILE
-    value: PLUGINS
-  - name: SPRING_PROFILES_ACTIVE
-    value: plugin-live
-  - name: SPRING_CONFIG_NAME
-    value: application,jdbc,log,base
-  - name: SPRING_CONFIG_LOCATION
-    value: file:///config/
-  - name: JVM_MEMORY_OPTS
-    value: -Xss256k -Xms256m -Xmx400m -XX:PermSize=128M -XX:MaxPermSize=128M -XX:ReservedCodeCacheSize=128M -Dspring.cloud.config.enabled=false -Daws.secretsmanager.enabled=false
+env:
+  - name: JAVA_TOOL_OPTIONS
+    value: -Xss256k -Xms256m -Xmx512m -XX:ReservedCodeCacheSize=128M
+  - name: PLUGIN_PATCHES
+    value: "true"
 
 configmap:
   enabled: true
   extraScrapeConfigs:
-    application.properties: |
-      # database connection
+    base.properties: |
       spring.datasource.url=jdbc:postgresql://postgres:5432/stripo_plugin_local_timers
       spring.datasource.username=example
       spring.datasource.password=secret
-      # These are credentials to timer service.
       timer.url=http://countdowntimer:80/api/
       timer.username=Admin
       timer.password=secret
-      spring.security.user.name=admin
-      spring.security.user.password=test
-    base.properties: |
-      spring.zipkin.enabled=false
-      aws.secretsmanager.enabled=false
-      spring.datasource.tomcat.test-on-borrow=true
-      spring.datasource.tomcat.validation-query=SELECT 1
-      spring.datasource.dbcp.max-active=20
-      spring.datasource.hikari.connection-test-query=SELECT 1
-      spring.datasource.hikari.minimum-idle=10
-      spring.datasource.hikari.maximum-pool-size=20
-      management.endpoints.web.exposure.include=*
-      timer.checkLimit=false
-      auth.enableJwtAuth=false
-      auth.innerServiceUsername=innerTimerApiUsername
-      auth.innerServicePassword=test
-      spring.security.user.name=timeradmin
-      spring.security.user.password=secret
+      spring.security.user.name=security-service
       spring.security.user.passwordV2=secret
-      spring.security.user.roles=USER
-      management.server.port=8081
-      management.endpoints.web.exposure.include=health,prometheus,metrics
-      management.endpoint.health.probes.enabled=true
-      management.metrics.tags.application=${spring.application.name}
-    log.properties: |
-      logging.level.root=INFO
-
+      spring.zipkin.enabled=false
 
 dumpCollectorEnable: false

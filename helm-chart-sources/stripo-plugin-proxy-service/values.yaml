@@ -30,14 +30,19 @@ serviceMonitor:
   enabled: false
 
 livenessProbe:
-  initialDelaySeconds: 120
+  initialDelaySeconds: 1
   periodSeconds: 10
-  failureThreshold: 6
+  failureThreshold: 2
 
 readinessProbe:
-  initialDelaySeconds: 40
+  initialDelaySeconds: 2
   periodSeconds: 10
-  failureThreshold: 8
+  failureThreshold: 2
+
+startupProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 1
+  failureThreshold: 30
 
 podAnnotations: {}
 
@@ -81,16 +86,18 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    memory: 512Mi
+    memory: 1000Mi
+    cpu: 500m
   requests:
-    memory: 512Mi
+    memory: 1000Mi
+    cpu: 150m
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 2
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
@@ -99,40 +106,23 @@ tolerations: []
 affinity: {}
 
 
-env: 
-  - name: APPNAME
-    value: stripo-plugin-proxy-service
-  - name: ENV
-    value: PLUGINS
-  - name: PROFILE
-    value: PLUGINS
-  - name: SPRING_CONFIG_NAME
-    value: application,jdbc,log,base
-  - name: SPRING_CONFIG_LOCATION
-    value: file:///config/
-  - name: JVM_MEMORY_OPTS
-    value: -Xss256k -Xms256m -Xmx400m -XX:PermSize=128M -XX:MaxPermSize=128M -XX:ReservedCodeCacheSize=128M -Dspring.cloud.config.enabled=false   
+env:
+  - name: JAVA_TOOL_OPTIONS
+    value: -Xss256k -Xms256m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=128M -XX:ReservedCodeCacheSize=128M
 
 configmap:
   enabled: true
   extraScrapeConfigs:
-    log.properties: |
-      logging.level.root=INFO
     base.properties: |
       management.address=0.0.0.0
-      app.version=@docker.image.tag@
-      build.time=@timestamp@
       management.security.enabled=false
       spring.zipkin.enabled=false
       stripo.security.service.baseUrl=http://stripo-security-service:8080
       stripo.security.service.username=security-service
-      stripo.security.service.password=secret
       stripo.security.service.passwordV2=secret
       management.server.port=8081
       management.endpoints.web.exposure.include=health,prometheus,metrics
       management.endpoint.health.probes.enabled=true
       management.metrics.tags.application=${spring.application.name}
-
-
 
 dumpCollectorEnable: false
