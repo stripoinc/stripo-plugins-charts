@@ -43,7 +43,7 @@ readinessProbe:
 startupProbe:
   initialDelaySeconds: 10
   periodSeconds: 1
-  failureThreshold: 90
+  failureThreshold: 180
 
 podAnnotations: {}
 
@@ -85,9 +85,9 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     memory: 1200Mi
-    cpu: 500m
+    cpu: 1000m
   requests:
-    memory: 1200Mi
+    memory: 640Mi
     cpu: 200m
 
 autoscaling:

@@ -43,7 +43,7 @@ readinessProbe:
 startupProbe:
   initialDelaySeconds: 9
   periodSeconds: 1
-  failureThreshold: 60
+  failureThreshold: 180
 
 podAnnotations: {}
 

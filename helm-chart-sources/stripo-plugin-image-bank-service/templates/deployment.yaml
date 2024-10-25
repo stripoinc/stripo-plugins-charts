@@ -76,6 +76,12 @@ spec:
               value: "optional:classpath:/,optional:file:/config/"
             - name: JVM_MEMORY_OPTS
               value: -Dspring.cloud.config.enabled=false -Daws.secretsmanager.enabled=false
+            {{- if and .Values.settings .Values.settings.logstash }}
+            - name: LOGSTASH_HOST
+              value: {{ .Values.settings.logstash.host }}
+            - name: LOGSTASH_PORT
+              value: "{{ .Values.settings.logstash.port }}"
+            {{- end }}
             {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 }}
             {{- end }}

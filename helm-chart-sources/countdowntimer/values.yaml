@@ -37,7 +37,7 @@ livenessProbe:
 startupProbe:
   initialDelaySeconds: 1
   periodSeconds: 1
-  failureThreshold: 60
+  failureThreshold: 180
 
 resources:
   requests:

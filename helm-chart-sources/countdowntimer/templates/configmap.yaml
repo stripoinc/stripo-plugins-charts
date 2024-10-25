@@ -4,11 +4,11 @@ metadata:
   name: countdowntimer
 data:
   config.yaml: |
-    {{- if .Values.settings.host }}
+    {{- if and .Values.settings .Values.settings.host }}
     HOST: {{ .Values.settings.host }}
     {{- end }}
     USE_HTTPS: true
-    {{- if .Values.settings.postgresDb }}
+    {{- if and .Values.settings .Values.settings.postgresDb }}
     DB_HOST: {{ .Values.settings.postgresDb.host }}
     DB_PORT: {{ .Values.settings.postgresDb.port }}
     DB_NAME: {{ .Values.settings.postgresDb.databaseName }}
@@ -17,7 +17,7 @@ data:
     DB_MIN_POOL_SIZE: {{ .Values.settings.postgresDb.connectionMinPoolSize }}
     DB_MAX_POOL_SIZE: {{ .Values.settings.postgresDb.connectionMaxPoolSize }}
     {{- end }}
-    {{- if .Values.settings.jwtSecretKey }}
+    {{- if and .Values.settings .Values.settings.jwtSecretKey }}
     SECRET_KEY: {{ .Values.settings.jwtSecretKey }}
     {{- else }}
     SECRET_KEY: GRvmsjKfTvaL1CDqrhhXXKWq5

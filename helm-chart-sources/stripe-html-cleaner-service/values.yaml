@@ -43,7 +43,7 @@ readinessProbe:
 startupProbe:
   initialDelaySeconds: 5
   periodSeconds: 1
-  failureThreshold: 60
+  failureThreshold: 180
 
 
 podAnnotations: {}
@@ -88,7 +88,7 @@ resources:
     memory: 700Mi
     cpu: 1000m
   requests:
-    memory: 700Mi
+    memory: 512Mi
     cpu: 600m
 
 autoscaling:

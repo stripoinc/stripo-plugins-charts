@@ -44,7 +44,7 @@ readinessProbe:
 startupProbe:
   initialDelaySeconds: 9
   periodSeconds: 1
-  failureThreshold: 120
+  failureThreshold: 180
 
 podAnnotations: {}
 #  prometheus.io/scrape: "true"
@@ -89,10 +89,10 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     memory: 750Mi
-    cpu: 300m
+    cpu: 1000m
   requests:
-    memory: 750Mi
-    cpu: 50m
+    memory: 512Mi
+    cpu: 100m
 
 autoscaling:
   enabled: false
