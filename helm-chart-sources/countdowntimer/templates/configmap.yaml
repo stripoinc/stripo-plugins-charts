@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: countdowntimer
+  name: {{ include "application.fullname" . }}
 data:
   config.yaml: |
     {{- if and .Values.settings .Values.settings.host }}

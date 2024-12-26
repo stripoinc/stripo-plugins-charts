@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: patches-service
+  name: {{ include "patches-service.fullname" . }}
 data:
 {{ toYaml .Values.configmap.extraScrapeConfigs | indent 2 }}
 {{- end }}

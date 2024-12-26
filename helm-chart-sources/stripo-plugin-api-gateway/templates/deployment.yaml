@@ -108,7 +108,7 @@ spec:
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successThreshold: 1
-            timeoutSeconds: 2
+            timeoutSeconds: 3
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- if .Values.startupProbe }}
           startupProbe:

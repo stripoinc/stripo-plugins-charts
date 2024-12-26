@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: stripo-plugin-drafts-service
+  name: {{ include "application.fullname" . }}
 data:
 {{ toYaml .Values.configmap.extraScrapeConfigs | indent 2 }}
 {{- end }}

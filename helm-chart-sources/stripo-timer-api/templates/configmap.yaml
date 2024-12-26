@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: stripo-timer-api
+  name: {{ include "application.fullname" . }}
 data:
 {{ toYaml .Values.configmap.extraScrapeConfigs | indent 2 }}
 {{- end }}
