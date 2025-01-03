@@ -150,7 +150,7 @@ spec:
         {{- if .Values.configmap.enabled }}
         - name: properties
           configMap:
-            name: stripe-html-cleaner-service
+            name: {{ include "stripe-html-cleaner-service.fullname" . }}
         {{- end }}
         {{- if .Values.dumpCollectorEnable }}
         - name: dumps

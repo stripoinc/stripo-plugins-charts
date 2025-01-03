@@ -146,7 +146,7 @@ spec:
         {{- if .Values.configmap.enabled }}
         - name: properties
           configMap:
-            name: stripe-html-gen-service
+            name: {{ include "stripe-html-gen-service.fullname" . }}
         {{- end }}
         {{- if .Values.dumpCollectorEnable }}
         - name: dumps

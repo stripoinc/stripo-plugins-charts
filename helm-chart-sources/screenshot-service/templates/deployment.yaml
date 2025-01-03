@@ -103,7 +103,7 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: screenshot-service
+            name: {{ include "screenshot-service.fullname" . }}
       {{- end }}         
       {{- with .Values.tolerations }}
       tolerations:

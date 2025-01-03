@@ -103,7 +103,7 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: patches-service
+            name: {{ include "patches-service.fullname" . }}
       {{- end }}           
       {{- with .Values.tolerations }}
       tolerations:

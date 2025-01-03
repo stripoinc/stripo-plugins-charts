@@ -153,7 +153,7 @@ spec:
         {{- if .Values.configmap.enabled }}
         - name: properties
           configMap:
-            name: ai-service
+            name: {{ include "ai-service.fullname" . }}
         {{- end }}
         {{- if .Values.dumpCollectorEnable }}
         - name: dumps

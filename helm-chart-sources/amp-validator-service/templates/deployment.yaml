@@ -107,7 +107,7 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: amp-validator-service
+            name: {{ include "amp-validator-service.fullname" . }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
