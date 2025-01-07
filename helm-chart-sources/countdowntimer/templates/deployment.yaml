@@ -105,7 +105,7 @@ spec:
       volumes:
         - name: properties
           configMap:
-            name: countdowntimer
+            name: {{ include "application.fullname" . }}
       {{- if .Values.volume.enabled }}
         - name: storage
           persistentVolumeClaim:
