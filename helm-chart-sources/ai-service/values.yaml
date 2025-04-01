@@ -118,3 +118,6 @@ configmap:
       service.mode=plugin
 
 dumpCollectorEnable: false
+
+pdb:
+  enabled: false
