@@ -127,3 +127,6 @@ configmap:
       spring.zipkin.enabled=false
 
 dumpCollectorEnable: false
+
+pdb:
+  enabled: false

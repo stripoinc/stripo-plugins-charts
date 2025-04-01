@@ -115,3 +115,6 @@ configmap:
       stripo.security.service.passwordV2=secret
 
 dumpCollectorEnable: false
+
+pdb:
+  enabled: false

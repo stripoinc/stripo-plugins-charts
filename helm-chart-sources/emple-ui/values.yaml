@@ -98,3 +98,5 @@ tolerations: []
 
 affinity: {}
 
+pdb:
+  enabled: false

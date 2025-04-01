@@ -232,3 +232,6 @@ configmap:
           option forwardfor
           reqrep ^([^\ ]*)\ /securityservice/(.*)     \1\ /\2
           server site stripo-security-service:8080  check inter 5000 backup
+
+pdb:
+  enabled: false

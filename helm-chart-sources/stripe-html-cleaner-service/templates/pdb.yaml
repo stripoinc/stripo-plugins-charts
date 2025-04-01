@@ -1,0 +1,13 @@
+{{- if .Values.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "stripe-html-cleaner-service.fullname" . }}-pdb
+  labels:
+    {{- include "stripe-html-cleaner-service.labels" . | nindent 4 }}
+spec:
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "stripe-html-cleaner-service.selectorLabels" . | nindent 6 }}
+{{- end }}

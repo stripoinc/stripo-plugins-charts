@@ -101,3 +101,6 @@ volume:
     enabled: false
     className: gp2 # AWS default storage class
   size: 10Gi
+
+pdb:
+  enabled: false

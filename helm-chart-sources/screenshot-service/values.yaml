@@ -117,3 +117,6 @@ configmap:
       "maxRequestSize": "10mb",
       "maxScreenHeight": 3500
       }
+
+pdb:
+  enabled: false

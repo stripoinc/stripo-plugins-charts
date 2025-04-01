@@ -136,3 +136,6 @@ configmap:
       rate.limit.enabled=false
 
 dumpCollectorEnable: false
+
+pdb:
+  enabled: false

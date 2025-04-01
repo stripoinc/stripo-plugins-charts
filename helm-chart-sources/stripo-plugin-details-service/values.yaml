@@ -129,3 +129,6 @@ configmap:
       management.metrics.tags.application=${spring.application.name}
 
 dumpCollectorEnable: false
+
+pdb:
+  enabled: false

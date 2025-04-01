@@ -1,0 +1,13 @@
+{{- if .Values.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "emple-loadbalancer.fullname" . }}-pdb
+  labels:
+    {{- include "emple-loadbalancer.labels" . | nindent 4 }}
+spec:
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "emple-loadbalancer.selectorLabels" . | nindent 6 }}
+{{- end }}

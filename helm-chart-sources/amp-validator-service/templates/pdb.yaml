@@ -1,0 +1,13 @@
+{{- if .Values.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "amp-validator-service.fullname" . }}-pdb
+  labels:
+    {{- include "amp-validator-service.labels" . | nindent 4 }}
+spec:
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "amp-validator-service.selectorLabels" . | nindent 6 }}
+{{- end }}

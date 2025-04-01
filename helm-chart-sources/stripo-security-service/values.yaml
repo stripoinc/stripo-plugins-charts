@@ -128,3 +128,6 @@ configmap:
       auth.passwordV2=secret
 
 dumpCollectorEnable: false
+
+pdb:
+  enabled: false
