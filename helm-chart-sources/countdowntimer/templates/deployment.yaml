@@ -98,8 +98,10 @@ spec:
             - name: properties
               mountPath: /usr/local/countdowntimer/config.yaml
               subPath: "config.yaml"
+          {{- if .Values.volume.enabled }}
             - name: storage
               mountPath: /opt/uploads/
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -112,13 +114,11 @@ spec:
         - name: properties
           configMap:
             name: {{ include "application.fullname" . }}
+      {{- if .Values.volume.enabled }}
         - name: storage
-          {{- if .Values.volume.enabled }}
           persistentVolumeClaim:
             claimName: countdowntimer-pv-claim
-          {{- else }}
-          emptyDir: {}
-          {{- end }}   
+      {{- end }}    
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
