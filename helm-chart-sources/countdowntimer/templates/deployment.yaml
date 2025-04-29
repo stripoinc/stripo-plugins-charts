@@ -98,10 +98,8 @@ spec:
             - name: properties
               mountPath: /usr/local/countdowntimer/config.yaml
               subPath: "config.yaml"
-          {{- if .Values.volume.enabled }}
             - name: storage
               mountPath: /opt/uploads/
-          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
