@@ -38,6 +38,12 @@ startupProbe:
   periodSeconds: 1
   failureThreshold: 30
 
+readinessProbe:
+  enabled: false
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  failureThreshold: 3
+
 podAnnotations: {}
 
 podSecurityContext: {}

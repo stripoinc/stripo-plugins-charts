@@ -127,29 +127,29 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /version
-              port: http
+              path: /livenessProbe
+              port: 9145
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          {{- if .Values.readinessProbe }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
-              path: /version
-              port: http
+              path: /readinessProbe
+              port: 9145
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             successThreshold: 1
-            timeoutSeconds: 2
+            timeoutSeconds: 1
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- end }}
           {{- if .Values.startupProbe }}
           startupProbe:
             httpGet:
-              path: /version
-              port: http
+              path: /readinessProbe
+              port: 9145
             initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}
             successThreshold: 1
