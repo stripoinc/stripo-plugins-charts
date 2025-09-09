@@ -61,6 +61,18 @@ spec:
             - name: COCKROACH_DB
               value: {{ .Values.settings.cockroachDb.databaseName }}
             {{- end }}
+            {{- if .Values.settings.tiDb }}
+            - name: TIDB_HOST
+              value: {{ .Values.settings.tiDb.host }}
+            - name: TIDB_PORT
+              value: {{ .Values.settings.tiDb.port }}
+            - name: TIDB_USER
+              value: {{ .Values.settings.tiDb.username }}
+            - name: TIDB_PASSWORD
+              value: {{ .Values.settings.tiDb.password }}
+            - name: TIDB_DATABASE
+              value: {{ .Values.settings.tiDb.databaseName }}
+            {{- end }}
             {{- if .Values.settings.nats }}
             - name: NATS_URL
               value: "{{ .Values.settings.nats.url }}"
