@@ -8,10 +8,10 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
       name: http
-    - port: 8081
+    - port: {{ .Values.service.actuatorPort }}
       targetPort: actuator
       protocol: TCP
       name: actuator

@@ -59,7 +59,10 @@ spec:
             {{- end }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+            - name: actuator
+              containerPort: {{ .Values.service.actuatorPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
