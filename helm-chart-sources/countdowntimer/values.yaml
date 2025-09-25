@@ -97,7 +97,7 @@ env:
     value: "true"
 
 volume:
-  enabled: true
+  enabled: false
   storageClass:
     enabled: false
     className: gp2 # AWS default storage class
