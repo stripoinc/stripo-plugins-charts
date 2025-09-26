@@ -4,6 +4,12 @@
 
 replicaCount: 1
 
+deploymentStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
 image:
   repository: stripo/countdowntimer
   pullPolicy: IfNotPresent
@@ -60,7 +66,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8080
-  actuatorPort: 8081
 
 ingress:
   enabled: false
@@ -97,7 +102,7 @@ env:
     value: "true"
 
 volume:
-  enabled: true
+  enabled: false
   storageClass:
     enabled: false
     className: gp2 # AWS default storage class
