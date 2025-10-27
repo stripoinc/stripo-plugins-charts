@@ -65,7 +65,7 @@ spec:
             - name: TIDB_HOST
               value: {{ .Values.settings.tiDb.host }}
             - name: TIDB_PORT
-              value: {{ .Values.settings.tiDb.port }}
+              value: "{{ .Values.settings.tiDb.port }}"
             - name: TIDB_USER
               value: {{ .Values.settings.tiDb.username }}
             - name: TIDB_PASSWORD
