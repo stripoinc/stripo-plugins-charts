@@ -1,0 +1,169 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "application.fullname" . }}
+  labels:
+    {{- include "application.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  progressDeadlineSeconds: {{ .Values.DeadlineSeconds }}  
+  selector:
+    matchLabels:
+      {{- include "application.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "application.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "application.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      {{- if .Values.dumpCollectorEnable }}
+      {{- $profile := "" }}
+      {{- $appname := "ui-editor-widgets-registry-service" }}
+      {{- if and .Values.settings .Values.settings.profile }}
+      {{- $profile = .Values.settings.profile }}
+      {{- end }}
+      initContainers:
+        - name: volume-mount-hack
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /dumps/{{ $profile }}/{{ $appname }}
+              chmod -R 777 /dumps/{{ $profile }}/{{ $appname }}
+          imagePullPolicy: Always
+          env:
+            {{- range .Values.env }}
+            - name: "{{ .name }}"
+              value: "{{ .value }}"
+            {{- end }}
+          volumeMounts:
+            - name: dumps
+              mountPath: /dumps
+      {{- end }}
+
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: APPNAME
+              value: ui-editor-widgets-registry-service
+            {{- if and .Values.settings .Values.settings.profile }}
+            - name: ENV
+              value: {{ .Values.settings.profile }}
+            - name: PROFILE
+              value: {{ .Values.settings.profile }}
+            {{- end }}
+            - name: SPRING_CONFIG_NAME
+              value: base,application
+            - name: SPRING_CONFIG_LOCATION
+              value: "optional:classpath:/,optional:file:/config/"
+            - name: JVM_MEMORY_OPTS
+              value: -Dspring.cloud.config.enabled=false -Daws.secretsmanager.enabled=false
+            {{- if and .Values.settings .Values.settings.logstash }}
+            - name: LOGSTASH_HOST
+              value: {{ .Values.settings.logstash.host }}
+            - name: LOGSTASH_PORT
+              value: "{{ .Values.settings.logstash.port }}"
+            {{- end }}
+            {{- if .Values.env }}
+            {{- toYaml .Values.env | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+            - name: actuator
+              containerPort: {{ .Values.actuator.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: {{ .Values.actuator.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: {{ .Values.actuator.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: {{ .Values.actuator.port }}
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "5"]
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+          {{- if or .Values.configmap.enabled .Values.dumpCollectorEnable }}
+          volumeMounts:
+            {{- if .Values.configmap.enabled }}
+            - name: properties
+              mountPath: /config
+            {{- end }}
+            {{- if .Values.dumpCollectorEnable }}
+            - name: dumps
+              mountPath: /dumps
+            {{- end }}
+          {{- end }}  
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- if or .Values.configmap.enabled .Values.dumpCollectorEnable }}
+      volumes:
+        {{- if .Values.configmap.enabled }}
+        - name: properties
+          configMap:
+            name: {{ include "application.fullname" . }}
+        {{- end }}
+        {{- if .Values.dumpCollectorEnable }}
+        - name: dumps
+          hostPath:
+            path: /dumps
+        {{- end }}
+      {{- end }} 
+
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
