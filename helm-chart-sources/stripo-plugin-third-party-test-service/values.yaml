@@ -74,6 +74,13 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+httproute:
+  enabled: false
+  pathPrefix: /
+  hostnames: []
+  gateway:
+    name: ngf-public
+    namespace: nginx-gateway
 
 resources:
   limits:
@@ -132,7 +139,6 @@ configmap:
       management.endpoints.web.exposure.include=health,prometheus,metrics
       management.endpoint.health.probes.enabled=true
       management.metrics.tags.application=${spring.application.name}
-
 
 dumpCollectorEnable: false
 

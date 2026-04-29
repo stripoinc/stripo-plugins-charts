@@ -19,7 +19,6 @@ image:
 imagePullSecrets: 
   - name: dockerhub
 
-
 nameOverride: ""
 fullnameOverride: ""
 
@@ -83,6 +82,13 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+httproute:
+  enabled: false
+  pathPrefix: /
+  hostnames: []
+  gateway:
+    name: ngf-public
+    namespace: nginx-gateway
 
 autoscaling:
   enabled: false

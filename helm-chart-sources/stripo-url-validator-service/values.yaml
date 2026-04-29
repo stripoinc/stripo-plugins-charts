@@ -57,6 +57,14 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
+httproute:
+  enabled: false
+  pathPrefix: /
+  hostnames: []
+  gateway:
+    name: ngf-public
+    namespace: nginx-gateway
+
 resources:
   limits:
     memory: 1300Mi
