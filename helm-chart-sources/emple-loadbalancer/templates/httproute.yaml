@@ -2,7 +2,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "emple-loadbalancer.fullname" . }}
   labels:
     app.kubernetes.io/name: {{ .Chart.Name }}
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -32,6 +32,6 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: {{ .Release.Name }}
+        - name: {{ include "emple-loadbalancer.fullname" . }}
           port: {{ .Values.service.port }}
 {{- end }}
