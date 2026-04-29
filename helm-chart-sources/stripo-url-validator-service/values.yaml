@@ -1,0 +1,92 @@
+# Default values for stripo-url-validator-service.
+
+replicaCount: 1
+
+DeadlineSeconds: 320
+
+image:
+  repository: stripo/stripo-url-validator-service
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets:
+  - name: dockerhub
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+serviceMonitor:
+  enabled: false
+
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 3
+
+readinessProbe:
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  failureThreshold: 10
+
+startupProbe:
+  initialDelaySeconds: 9
+  periodSeconds: 1
+  failureThreshold: 180
+
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources:
+  limits:
+    memory: 1300Mi
+    cpu: 1000m
+  requests:
+    memory: 750Mi
+    cpu: 100m
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+env:
+  - name: JAVA_TOOL_OPTIONS
+    value: -Xss256k -Xms128m -Xmx512m -XX:ReservedCodeCacheSize=128M -Djava.net.preferIPv4Stack=true
+
+settings:
+  profile: PLUGINS
+
+configmap:
+  enabled: false
+
+dumpCollectorEnable: false
+
+pdb:
+  enabled: false
