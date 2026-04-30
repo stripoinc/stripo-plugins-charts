@@ -81,6 +81,14 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+httproute:
+  enabled: false
+  pathPrefix: /
+  hostnames: []
+  gateway:
+    name: ngf-public
+    namespace: nginx-gateway
+
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -92,7 +100,6 @@ resources:
   requests:
     memory: 750Mi
     cpu: 100m
-
 
 autoscaling:
   enabled: false
@@ -107,11 +114,9 @@ tolerations: []
 
 affinity: {}
 
-
 env: 
   - name: JAVA_TOOL_OPTIONS
     value: -Xss256k -Xms400m -Xmx512m -XX:ReservedCodeCacheSize=128M
-
 
 configmap:
   enabled: true

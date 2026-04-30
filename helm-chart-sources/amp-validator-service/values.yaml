@@ -29,7 +29,6 @@ serviceAccount:
 serviceMonitor:
   enabled: false
 
-
 livenessProbe:
   initialDelaySeconds: 1
   periodSeconds: 10
@@ -72,6 +71,14 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+httproute:
+  enabled: false
+  pathPrefix: /
+  hostnames: []
+  gateway:
+    name: ngf-public
+    namespace: nginx-gateway
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
