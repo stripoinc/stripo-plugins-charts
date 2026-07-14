@@ -31,7 +31,7 @@ spec:
 
       {{- if .Values.dumpCollectorEnable }}
       {{- $profile := "" }}
-      {{- $appname := "convo-core-chat-service" }}
+      {{- $appname := "convo-core-chat-server" }}
       {{- if and .Values.settings .Values.settings.profile }}
       {{- $profile = .Values.settings.profile }}
       {{- end }}
@@ -63,7 +63,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: APPNAME
-              value: convo-core-chat-service
+              value: convo-core-chat-server
             {{- if and .Values.settings .Values.settings.profile }}
             - name: ENV
               value: {{ .Values.settings.profile }}

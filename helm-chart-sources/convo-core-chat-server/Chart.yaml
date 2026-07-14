@@ -1,5 +1,5 @@
 apiVersion: v2
-name: convo-core-chat-service
+name: convo-core-chat-server
 description: Convo core chat service
 
 # A chart can be either an 'application' or a 'library' chart.
