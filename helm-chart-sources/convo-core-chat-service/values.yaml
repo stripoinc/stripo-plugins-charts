@@ -1,4 +1,4 @@
-# Default values for ui-editor-widgets-registry-service.
+# Default values for convo-core-chat-service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,7 +7,7 @@ replicaCount: 1
 DeadlineSeconds: 120
 
 image:
-  repository: stripo/ui-editor-widgets-registry-service
+  repository: stripo/convo-core-chat-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -61,10 +61,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8080
-
-actuator:
-  port: 8081
+  port: 8000
 
 ingress:
   enabled: false
@@ -96,16 +93,16 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    memory: 1000Mi
+    memory: 1200Mi
     cpu: 1000m
   requests:
-    memory: 640Mi
-    cpu: 100m
+    memory: 300Mi
+    cpu: 250m
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 1
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
@@ -116,21 +113,20 @@ tolerations: []
 affinity: {}
 
 env:
-  - name: JAVA_TOOL_OPTIONS
-    value: -Xss256k -Xms400m -Xmx512m -XX:ReservedCodeCacheSize=128M
+  - name: CONSOLE_LOG_AS_JSON
+    value: "true"
 
 configmap:
   enabled: true
   extraScrapeConfigs:
     base.properties: |
-      spring.datasource.url=jdbc:postgresql://postgres:5432/ui_editor_widgets_registry
-      spring.datasource.username=example
-      spring.datasource.password=secret
-      management.server.port=8081
-      management.endpoints.web.exposure.include=health,prometheus,metrics
-      management.endpoint.health.probes.enabled=true
-      management.metrics.tags.application=${spring.application.name}
-
+      STRIPO_WIDGET_PROMPT_ENDPOINT=http://ui-editor-widgets-registry-service:8080/api/v1/widgets/{widgetId}/prompt
+      CONFIG_SERVICE_REQUIRED=false
+      AUTH_PROVIDER_USE_MOCK=false
+      AUTH_PROVIDER_HOST=http://convo-auth-service:8080/api
+      USE_PERSISTED_STORE=true
+      DATABASE_URL=postgresql://example:secret@postgres:5432/stripo_plugin_local_widgets_chat_history
+      LANGFUSE_ENABLED=false
 dumpCollectorEnable: false
 
 pdb:
