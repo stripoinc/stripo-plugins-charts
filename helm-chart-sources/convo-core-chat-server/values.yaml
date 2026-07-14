@@ -36,13 +36,8 @@ livenessProbe:
   periodSeconds: 10
   failureThreshold: 2
 
-readinessProbe:
-  initialDelaySeconds: 2
-  periodSeconds: 10
-  failureThreshold: 2
-
 startupProbe:
-  initialDelaySeconds: 9
+  initialDelaySeconds: 5
   periodSeconds: 1
   failureThreshold: 180
 

@@ -77,32 +77,20 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-            - name: actuator
-              containerPort: {{ .Values.actuator.port }}
-              protocol: TCP
           livenessProbe:
             httpGet:
-              path: /actuator/health/liveness
-              port: {{ .Values.actuator.port }}
+              path: /api/v1/health
+              port: {{ .Values.service.port }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             successThreshold: 1
             timeoutSeconds: 2
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          readinessProbe:
-            httpGet:
-              path: /actuator/health/readiness
-              port: {{ .Values.actuator.port }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            successThreshold: 1
-            timeoutSeconds: 2
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           {{- if .Values.startupProbe }}
           startupProbe:
             httpGet:
-              path: /actuator/health/liveness
-              port: {{ .Values.actuator.port }}
+              path: /api/v1/health
+              port: {{ .Values.service.port }}
             initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.startupProbe.periodSeconds }}
             successThreshold: 1
