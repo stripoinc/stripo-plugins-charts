@@ -1,3 +1,11 @@
+{{- if .Values.settings.dbType }}
+{{- if not (has .Values.settings.dbType (list "TiDB" "AuroraMySQL")) }}
+{{- fail (printf "settings.dbType must be \"TiDB\" or \"AuroraMySQL\", got %q (value is case sensitive)" .Values.settings.dbType) }}
+{{- end }}
+{{- if and (eq .Values.settings.dbType "AuroraMySQL") (not .Values.settings.auroraMysql) }}
+{{- fail "settings.dbType is \"AuroraMySQL\" but settings.auroraMysql is not set - add the connection block" }}
+{{- end }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -90,15 +98,15 @@ spec:
               {{- end }}
               {{- if .Values.settings.auroraMysql.connMaxLifetime }}
             - name: AURORA_MYSQL_CONN_MAX_LIFETIME
-              value: {{ .Values.settings.auroraMysql.connMaxLifetime }}
+              value: "{{ .Values.settings.auroraMysql.connMaxLifetime }}"
               {{- end }}
               {{- if .Values.settings.auroraMysql.reconnectInterval }}
             - name: AURORA_MYSQL_RECONNECT_INTERVAL
-              value: {{ .Values.settings.auroraMysql.reconnectInterval }}
+              value: "{{ .Values.settings.auroraMysql.reconnectInterval }}"
               {{- end }}
               {{- if .Values.settings.auroraMysql.connectTimeout }}
             - name: AURORA_MYSQL_CONNECT_TO_DATABASE_TIMEOUT
-              value: {{ .Values.settings.auroraMysql.connectTimeout }}
+              value: "{{ .Values.settings.auroraMysql.connectTimeout }}"
               {{- end }}
               {{- if .Values.settings.auroraMysql.tls }}
             - name: AURORA_MYSQL_TLS_MODE
