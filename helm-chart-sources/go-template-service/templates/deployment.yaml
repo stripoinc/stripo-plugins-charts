@@ -1,3 +1,11 @@
+{{- if .Values.settings.dbType }}
+{{- if not (has .Values.settings.dbType (list "TiDB" "AuroraMySQL")) }}
+{{- fail (printf "settings.dbType must be \"TiDB\" or \"AuroraMySQL\", got %q (value is case sensitive)" .Values.settings.dbType) }}
+{{- end }}
+{{- if and (eq .Values.settings.dbType "AuroraMySQL") (not .Values.settings.auroraMysql) }}
+{{- fail "settings.dbType is \"AuroraMySQL\" but settings.auroraMysql is not set - add the connection block" }}
+{{- end }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -61,7 +69,55 @@ spec:
             - name: COCKROACH_DB
               value: {{ .Values.settings.cockroachDb.databaseName }}
             {{- end }}
-            {{- if .Values.settings.tiDb }}
+            {{- /*
+              settings.dbType is the single switch selecting the active storage backend.
+              Valid values: "TiDB" (default when unset) or "AuroraMySQL". Only the connection
+              env vars for the active backend are rendered below, and the service level
+              DB_READ_TARGET / DB_WRITE_TARGETS are derived from the same value.
+            */}}
+            {{- if eq .Values.settings.dbType "AuroraMySQL" }}
+            {{- if .Values.settings.auroraMysql }}
+            - name: AURORA_MYSQL_HOST
+              value: {{ .Values.settings.auroraMysql.host }}
+            - name: AURORA_MYSQL_PORT
+              value: "{{ .Values.settings.auroraMysql.port | default 3306 }}"
+            - name: AURORA_MYSQL_USER
+              value: {{ .Values.settings.auroraMysql.username }}
+            - name: AURORA_MYSQL_PASSWORD
+              value: {{ .Values.settings.auroraMysql.password }}
+            - name: AURORA_MYSQL_DATABASE
+              value: {{ .Values.settings.auroraMysql.databaseName }}
+              {{- /* kindIs check, not truthiness: 0 is a valid connection count */}}
+              {{- if not (kindIs "invalid" .Values.settings.auroraMysql.openConnections) }}
+            - name: AURORA_MYSQL_OPEN_CONNECTIONS
+              value: "{{ .Values.settings.auroraMysql.openConnections }}"
+              {{- end }}
+              {{- if not (kindIs "invalid" .Values.settings.auroraMysql.idleConnections) }}
+            - name: AURORA_MYSQL_IDLE_CONNECTIONS
+              value: "{{ .Values.settings.auroraMysql.idleConnections }}"
+              {{- end }}
+              {{- if .Values.settings.auroraMysql.connMaxLifetime }}
+            - name: AURORA_MYSQL_CONN_MAX_LIFETIME
+              value: "{{ .Values.settings.auroraMysql.connMaxLifetime }}"
+              {{- end }}
+              {{- if .Values.settings.auroraMysql.reconnectInterval }}
+            - name: AURORA_MYSQL_RECONNECT_INTERVAL
+              value: "{{ .Values.settings.auroraMysql.reconnectInterval }}"
+              {{- end }}
+              {{- if .Values.settings.auroraMysql.connectTimeout }}
+            - name: AURORA_MYSQL_CONNECT_TO_DATABASE_TIMEOUT
+              value: "{{ .Values.settings.auroraMysql.connectTimeout }}"
+              {{- end }}
+              {{- if .Values.settings.auroraMysql.tls }}
+            - name: AURORA_MYSQL_TLS_MODE
+              value: {{ .Values.settings.auroraMysql.tls.mode | default "verify_identity" }}
+            - name: AURORA_MYSQL_TLS_CA_FILE
+              value: "/etc/ssl/rds/{{ .Values.settings.auroraMysql.tls.caBundleKey | default "global-bundle.pem" }}"
+            - name: AURORA_MYSQL_TLS_SERVER_NAME
+              value: {{ .Values.settings.auroraMysql.tls.serverName | default .Values.settings.auroraMysql.host }}
+              {{- end }}
+            {{- end }}
+            {{- else if .Values.settings.tiDb }}
             - name: TIDB_HOST
               value: {{ .Values.settings.tiDb.host }}
             - name: TIDB_PORT
@@ -72,6 +128,23 @@ spec:
               value: {{ .Values.settings.tiDb.password }}
             - name: TIDB_DATABASE
               value: {{ .Values.settings.tiDb.databaseName }}
+            {{- end }}
+            {{- if .Values.settings.dbType }}
+            - name: DB_READ_TARGET
+              value: "{{ .Values.settings.dbType }}"
+            - name: DB_WRITE_TARGETS
+              value: "{{ .Values.settings.dbType }}"
+            {{- end }}
+            {{- if .Values.settings.dbMigration }}
+              {{- /* kindIs check, not truthiness: false is a valid explicit value */}}
+              {{- if not (kindIs "invalid" .Values.settings.dbMigration.enabled) }}
+            - name: DB_MIGRATION_ENABLED
+              value: "{{ .Values.settings.dbMigration.enabled }}"
+              {{- end }}
+              {{- if not (kindIs "invalid" .Values.settings.dbMigration.missingDataEnabled) }}
+            - name: DB_MISSING_DATA_MIGRATION_ENABLED
+              value: "{{ .Values.settings.dbMigration.missingDataEnabled }}"
+              {{- end }}
             {{- end }}
             {{- if .Values.settings.nats }}
             - name: NATS_URL
@@ -170,10 +243,18 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.configmap.enabled }}
+          {{- $auroraCaBundle := and (eq .Values.settings.dbType "AuroraMySQL") .Values.settings.auroraMysql .Values.settings.auroraMysql.tls .Values.settings.auroraMysql.tls.caBundleConfigMap }}
+          {{- if or .Values.configmap.enabled $auroraCaBundle }}
           volumeMounts:
+            {{- if .Values.configmap.enabled }}
             - name: properties
               mountPath: /usr/src/app/config/
+            {{- end }}
+            {{- if $auroraCaBundle }}
+            - name: rds-ca
+              mountPath: /etc/ssl/rds
+              readOnly: true
+            {{- end }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -183,11 +264,18 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.configmap.enabled }}
+      {{- if or .Values.configmap.enabled $auroraCaBundle }}
       volumes:
+        {{- if .Values.configmap.enabled }}
         - name: properties
           configMap:
             name: {{ .Values.fullnameOverride }}
+        {{- end }}
+        {{- if $auroraCaBundle }}
+        - name: rds-ca
+          configMap:
+            name: {{ .Values.settings.auroraMysql.tls.caBundleConfigMap }}
+        {{- end }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
