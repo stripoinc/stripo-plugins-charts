@@ -153,6 +153,10 @@ spec:
               value: {{ .Values.settings.nats.user }}
             - name: NATS_PASSWORD
               value: {{ .Values.settings.nats.password }}
+            {{- if .Values.settings.nats.maxPayloadSizeToIncludeInMsg }}
+            - name: NATS_MAX_PAYLOAD_SIZE_TO_INCLUDE_IN_MSG
+              value: "{{ .Values.settings.nats.maxPayloadSizeToIncludeInMsg }}"
+            {{- end }}
             {{- end }}
             {{- if and .Values.settings.redis .Values.settings.redis.clusterUrl }}
             - name: REDIS_ADDRESS
@@ -189,6 +193,10 @@ spec:
             {{- if .Values.settings.changedEmailNotificationDebounceTime }}
             - name: CHANGED_EMAIL_NOTIFICATION_SEND_DEBOUNCE_TIME
               value: {{ .Values.settings.changedEmailNotificationDebounceTime }}
+            {{- end }}
+            {{- if .Values.settings.numberOfPatchesToStartCompaction }}
+            - name: NUMBER_OF_PATCHES_TO_START_COMPACTION
+              value: "{{ .Values.settings.numberOfPatchesToStartCompaction }}"
             {{- end }}
             {{- if .Values.settings.rateLimits }}
             - name: RATE_LIMITER_WEBSOCKET_MSGS_DEFAULT_JSON_CONFIG
