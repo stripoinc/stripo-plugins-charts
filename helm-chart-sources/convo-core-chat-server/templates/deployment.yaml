@@ -70,6 +70,18 @@ spec:
             - name: PROFILE
               value: {{ .Values.settings.profile }}
             {{- end }}
+            - name: CONSOLE_LOG_AS_JSON
+              value: {{ .Values.settings.consoleLogAsJson | quote }}
+            - name: CONFIG_SERVICE_REQUIRED
+              value: {{ .Values.settings.configServiceRequired | quote }}
+            - name: AUTH_PROVIDER_USE_MOCK
+              value: {{ .Values.settings.authProviderUseMock | quote }}
+            - name: USE_PERSISTED_STORE
+              value: {{ .Values.settings.usePersistedStore | quote }}
+            - name: AUTO_MIGRATE
+              value: {{ .Values.settings.autoMigrate | quote }}
+            - name: LANGFUSE_ENABLED
+              value: {{ .Values.settings.langfuseEnabled | quote }}
             {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 }}
             {{- end }}

@@ -107,9 +107,16 @@ tolerations: []
 
 affinity: {}
 
-env:
-  - name: CONSOLE_LOG_AS_JSON
-    value: "true"
+settings:
+  consoleLogAsJson: true
+  configServiceRequired: false
+  authProviderUseMock: false
+  usePersistedStore: true
+  autoMigrate: true
+  langfuseEnabled: false
+
+# Extra environment variables (DATABASE_URL, AUTH_PROVIDER_HOST, API keys etc.)
+env: []
 
 configmap:
   enabled: true
