@@ -1,0 +1,13 @@
+{{- if .Values.pdb.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "stripo-calendar-link-service.fullname" . }}-pdb
+  labels:
+    {{- include "stripo-calendar-link-service.labels" . | nindent 4 }}
+spec:
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "stripo-calendar-link-service.selectorLabels" . | nindent 6 }}
+{{- end }}
