@@ -130,6 +130,14 @@ configmap:
       management.endpoints.web.exposure.include=health,prometheus,metrics
       management.endpoint.health.probes.enabled=true
       management.metrics.tags.application=${spring.application.name}
+      # Shared widgets sync. Plugin (partner) installations run in follower mode and pull
+      # the widget catalog published by Stripo from the owner registry below.
+      shared.modules.mode=follower
+      shared.modules.owner.base-url=https://my.stripo.email/bapi/widgets/registry
+      # API key that authenticates this installation against the Stripo-hosted registry.
+      # Request it from the Stripo team; without a valid key the sync fails and the
+      # widget catalog stays empty.
+      shared.modules.auth.client.api-key=REQUEST_THIS_KEY_FROM_STRIPO_TEAM
 
 dumpCollectorEnable: false
 

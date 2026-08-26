@@ -20,3 +20,12 @@
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
 {{- end }}
+
+2. Shared widgets sync (plugin installations):
+   The service runs in follower mode ({{ .Chart.Name }} property shared.modules.mode=follower)
+   and periodically pulls the widget catalog published by Stripo. For the sync to work,
+   request an API key from the Stripo team and set it in your values file under
+   configmap.extraScrapeConfigs as:
+     shared.modules.auth.client.api-key=<key issued by Stripo>
+   Until a valid key is configured, every sync attempt fails (see
+   "Owner shared widgets request failed" in the service logs) and the widget catalog stays empty.

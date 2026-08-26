@@ -1732,6 +1732,17 @@ entries:
   ui-editor-widgets-registry-service:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-08-26T18:47:20.406266708Z"
+    description: UI editor widgets registry service
+    digest: 7bfe92c1e841eb435bf820c537c5330de2a62fcba9b0cd5a47c97789d379d9ee
+    icon: https://stripo-cdn.stripo.email/favicon-32x32.png
+    name: ui-editor-widgets-registry-service
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/ui-editor-widgets-registry-service-1.3.0.tgz
+    version: 1.3.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-07-26T18:24:28.863706+03:00"
     description: UI editor widgets registry service
     digest: c9b15171177479c079758dfb919181650a56c7ec78fe07b64c830dd7e1cc9f87
@@ -1752,4 +1763,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/ui-editor-widgets-registry-service-1.1.2.tgz
     version: 1.1.2
-generated: "2026-08-13T09:57:31.567553006Z"
+generated: "2026-08-26T18:47:20.405515333Z"
