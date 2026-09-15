@@ -850,6 +850,17 @@ entries:
   stripo-calendar-link-service:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-09-15T15:55:00.000000+03:00"
+    description: Stripo Calendar Link Service
+    digest: 8241eb89b0f87c0cdf7c487a2e0250913ec3354ccb3bac5733c4968003761790
+    icon: https://stripo-cdn.stripo.email/favicon-32x32.png
+    name: stripo-calendar-link-service
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/stripo-calendar-link-service-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-08-14T18:38:37.160789+03:00"
     description: Stripo Calendar Link Service
     digest: be09555e3465af812754ef40d1e853eb185ee4c47eae05e61755c43b92bb9288

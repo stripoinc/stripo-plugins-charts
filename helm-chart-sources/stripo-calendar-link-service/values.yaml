@@ -92,7 +92,14 @@ settings:
   profile: PLUGINS
 
 configmap:
-  enabled: false
+  enabled: true
+  extraScrapeConfigs:
+    # Defaults for self-hosted (enterprise) installations. Loaded via
+    # SPRING_CONFIG_NAME=base,application - keys in the client-provided
+    # application.properties override these.
+    base.properties: |
+      service.mode=plugin
+      calendar-link.base-url=https://stripo.email/api/v1
 
 dumpCollectorEnable: false
 
