@@ -2,7 +2,11 @@
 
 replicaCount: 1
 
-DeadlineSeconds: 320
+# ffmpeg jobs can run up to ~5 min on shutdown (video.processing.shutdownAwaitSec).
+# progressDeadlineSeconds must stay above terminationGracePeriodSeconds or
+# helm/kubectl rollout status fails while the old pod is still draining.
+DeadlineSeconds: 600
+terminationGracePeriodSeconds: 360
 
 image:
   repository: stripo/stripo-video-processing-service
@@ -66,12 +70,17 @@ httproute:
     namespace: nginx-gateway
 
 resources:
+  # Default poolSize=2 with ffmpegThreads=1 needs 2 CPU. A heavy GIF can use
+  # ~440Mi ffmpeg RSS per job; plus JVM (-Xmx512m) that is >1.3Gi → OOMKill.
+  # Source MP4 (up to 200 MB) + poster/GIF live in the container tmpdir.
   limits:
-    memory: 1300Mi
-    cpu: 1000m
+    cpu: 2000m
+    memory: 2Gi
+    ephemeral-storage: 2Gi
   requests:
-    memory: 750Mi
     cpu: 100m
+    memory: 750Mi
+    ephemeral-storage: 1Gi
 
 autoscaling:
   enabled: false
@@ -92,7 +101,14 @@ settings:
   profile: PLUGINS
 
 configmap:
-  enabled: false
+  enabled: true
+  extraScrapeConfigs:
+    # Defaults for self-hosted (enterprise) installations. Loaded via
+    # SPRING_CONFIG_NAME=base,application — keys in the client-provided
+    # application.properties override these. Without this ConfigMap the JAR
+    # default is service.mode=account.
+    base.properties: |
+      service.mode=plugin
 
 dumpCollectorEnable: false
 
