@@ -1743,9 +1743,9 @@ entries:
   stripo-video-processing-service:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-09-18T11:24:00.000000+03:00"
+    created: "2026-09-18T12:04:00.000000+03:00"
     description: Stripo Video Processing Service
-    digest: a67fce8172adbda02c1cf660ca767261c64b4f6a66d720ab00da7a6617842a08
+    digest: c92aa5f5dae22dd40ac47f9b80fd0adb1fa58c6d63cd7b7afc664ac4d6fac1aa
     icon: https://stripo-cdn.stripo.email/favicon-32x32.png
     name: stripo-video-processing-service
     type: application

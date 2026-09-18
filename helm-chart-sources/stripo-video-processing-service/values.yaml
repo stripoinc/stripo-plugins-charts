@@ -70,12 +70,17 @@ httproute:
     namespace: nginx-gateway
 
 resources:
+  # Default poolSize=2 with ffmpegThreads=1 needs 2 CPU. A heavy GIF can use
+  # ~440Mi ffmpeg RSS per job; plus JVM (-Xmx512m) that is >1.3Gi → OOMKill.
+  # Source MP4 (up to 200 MB) + poster/GIF live in the container tmpdir.
   limits:
-    memory: 1300Mi
-    cpu: 1000m
+    cpu: 2000m
+    memory: 2Gi
+    ephemeral-storage: 2Gi
   requests:
-    memory: 750Mi
     cpu: 100m
+    memory: 750Mi
+    ephemeral-storage: 1Gi
 
 autoscaling:
   enabled: false
