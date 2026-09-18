@@ -1743,6 +1743,17 @@ entries:
   stripo-video-processing-service:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-09-18T11:24:00.000000+03:00"
+    description: Stripo Video Processing Service
+    digest: a67fce8172adbda02c1cf660ca767261c64b4f6a66d720ab00da7a6617842a08
+    icon: https://stripo-cdn.stripo.email/favicon-32x32.png
+    name: stripo-video-processing-service
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/stripo-video-processing-service-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-07-26T18:24:28.862904+03:00"
     description: Stripo Video Processing Service
     digest: 5356c5ea1d9a45b4df0b811287a197136a4b0e63d1c83b33062fdd31a2740c80
