@@ -1740,6 +1740,18 @@ entries:
     urls:
     - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/stripo-url-validator-service-1.0.0.tgz
     version: 1.0.0
+  stripo-video-metadata-service:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-10-05T17:59:33.000000+03:00"
+    description: Stripo Video Metadata Service
+    digest: 359eaa4201295db03ff9ab80b8c46d1a46efee4a0a21c355e79a4078aa6a7ce0
+    icon: https://stripo-cdn.stripo.email/favicon-32x32.png
+    name: stripo-video-metadata-service
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/stripo-video-metadata-service-1.0.0.tgz
+    version: 1.0.0
   stripo-video-processing-service:
   - apiVersion: v2
     appVersion: latest
