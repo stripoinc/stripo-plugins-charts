@@ -92,7 +92,14 @@ settings:
   profile: PLUGINS
 
 configmap:
-  enabled: false
+  enabled: true
+  extraScrapeConfigs:
+    # Defaults for self-hosted installations. Loaded via
+    # SPRING_CONFIG_NAME=base,application. Keys in the client-provided
+    # application.properties override these. Without this ConfigMap the JAR
+    # default is service.mode=account.
+    base.properties: |
+      service.mode=plugin
 
 dumpCollectorEnable: false
 

@@ -1731,6 +1731,17 @@ entries:
   stripo-url-validator-service:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-10-12T17:12:23+03:00"
+    description: Stripo URL Validator Service
+    digest: ab9bc2cdc0288066d1c5c64dc246ba52ff4521d08195017eb6117f39f9aae6f9
+    icon: https://stripo-cdn.stripo.email/favicon-32x32.png
+    name: stripo-url-validator-service
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/stripoinc/stripo-plugins-charts/main/stripo-url-validator-service-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-07-26T18:24:28.862632+03:00"
     description: Stripo URL Validator Service
     digest: 98a81c589abd8a0e59828ac775457126fd315c03c85ade51b61c638689f2e138
